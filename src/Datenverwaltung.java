@@ -19,7 +19,6 @@ public class Datenverwaltung {
 		graphics = new GSort(this);
 	}
 	public Datenverwaltung(boolean a) {
-		
 	}
 	
 	
