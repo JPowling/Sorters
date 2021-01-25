@@ -1,4 +1,4 @@
-import java.util.Random; //by Jens
+import java.util.Random;
 
 /**
  * @author Matthias Zimmer und Uwe Seckinger (verändert Hanna Wüst)
@@ -8,27 +8,24 @@ import java.util.Random; //by Jens
  */
 
 
-
 public class Datenverwaltung {
-	
-	//edit Jens
-	Random rnd = new Random();
-	private GSort graphics;
-	
-	public Datenverwaltung() {
-		graphics = new GSort(this);
-	}
-	public Datenverwaltung(boolean a) {
-	}
-	
-	
-	//end edit Jens
-	
-	
+
+    //edit Jens
+    Random rnd = new Random();
+    //private GSort graphics;
+
     /**
      * Array, das die zu sortierenden Daten enthält
      */
-    public int[] daten;
+    public int[] daten = new int[1];
+
+
+    //end edit Jens
+
+
+    public Datenverwaltung() {
+        //graphics = new GSort(this);
+    }
 
     /**
      * Variable, in der die Anzahl der Vergleiche gespeichert werden kann.
@@ -55,8 +52,8 @@ public class Datenverwaltung {
         // Element an zweiter Position an erste Position kopieren 
         daten[ersterIndex] = daten[zweiterIndex];
         // Element aus Zwischenspeicher in zweite Position kopieren
-        daten[zweiterIndex] = zwischenspeicher; 
-        graphics.render();
+        daten[zweiterIndex] = zwischenspeicher;
+        //graphics.render();
     }
 
     /**
@@ -68,15 +65,21 @@ public class Datenverwaltung {
     	long timeStart = System.currentTimeMillis(); 
     	int b; //zeiger Bestes
     	for(int a = 0; a < daten.length; a++) {
-			b = a;
-			for(int s=a+1; s < daten.length; s++) {	
-				if(daten[b] > daten[s]) {
-					b = s;
-				}
-				anzahlVergleiche++;
-			}
-			tauscheElementeAnPositionen(a, b);
-		}	
+            b = a;
+            for (int s = a + 1; s < daten.length; s++) {
+                if (daten[b] > daten[s]) {
+                    b = s;
+                }
+                anzahlVergleiche++;
+
+            }
+            tauscheElementeAnPositionen(a, b);
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 		long timeEnd = System.currentTimeMillis();
 		laufzeit = timeEnd - timeStart;
 
@@ -93,8 +96,13 @@ public class Datenverwaltung {
     		for(int i = 0; i<daten.length-1; i++) {
     			anzahlVergleiche++;
     			if(daten[i]>daten[i+1]) {
-    				tauscheElementeAnPositionen(i, i+1);
-    			}
+                    tauscheElementeAnPositionen(i, i + 1);
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
     		}
     	}
     	
@@ -133,9 +141,14 @@ public class Datenverwaltung {
     	anzahlVergleiche = 0;
     	long timeStart = System.currentTimeMillis(); 
     	while(!checkSort(daten)) {
-    		tauscheElementeAnPositionen(rnd.nextInt(daten.length), rnd.nextInt(daten.length));
-			anzahlVergleiche++;
-    	}
+            tauscheElementeAnPositionen(rnd.nextInt(daten.length), rnd.nextInt(daten.length));
+            anzahlVergleiche++;
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     	long timeEnd = System.currentTimeMillis();
 		laufzeit = timeEnd - timeStart;    
     }
@@ -193,9 +206,8 @@ public class Datenverwaltung {
     /**
      * Füllt das Array daten mit Zufallszahlen zwischen 0 und der Zehnfachen
      * Anzahl
-     * 
-     * @param Anzahl
-     *            der zu erzeugende Datensätze
+     *
+     * @param anzahl der zu erzeugende Datensätze
      */
     public void zufaelligeDatensaetzeErzeugen(int anzahl) {
         daten = new int[anzahl];
@@ -207,8 +219,8 @@ public class Datenverwaltung {
     /**
      * Füllt das Array daten mit Zufallszahlen zwischen 0 und der Hälfte der
      * Anzahl -> häufige Wiederholungen
-     * 
-     * @param Anzahl
+     *
+     * @param anzahl
      *            der zu erzeugende Datensätze
      */
     public void datensaetzeMitWiederholungErzeugen(int anzahl) {

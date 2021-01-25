@@ -1,45 +1,36 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
+import java.awt.event.ActionListener;
 
 /**
  * @author Matthias Zimmer und Uwe Seckinger (verändert Hanna Wüst)
  * @version 2018.03.05
- * Oberfläche zur Wiedergabe von Sortierergebnissen 
- *
+ * Oberfläche zur Wiedergabe von Sortierergebnissen
  */
 public class GUI_Sortierverfahren extends JFrame {
 
-    private JPanel contentPane;
-    private JTextField textFieldAnzahlDatensaetze;
-    private JTextArea textAreaDatensaetze;
-    private Datenverwaltung datenverwaltung;
-    private JScrollPane scrollPane;
-    private JLabel lblSortierdauer;
+    private final JPanel contentPane;
+    private final JTextField textFieldAnzahlDatensaetze;
+    private final JTextArea textAreaDatensaetze;
+    private final Datenverwaltung datenverwaltung;
+    private final GSort graphics;
+    private final JScrollPane scrollPane;
+    private final JLabel lblSortierdauer;
     private JTextField textFieldZuSuchenderDatensatz;
     private JLabel lblAusgabeDatensatzSuche0;
     private JLabel lblAusgabeDatensatzSuche1;
-    private JLabel lblAnzahlVergleiche ;
-    private int bt_tfHoehe=23;
-    private int btAbst=11;
-    private int anzBt=8;
+    private final JLabel lblAnzahlVergleiche;
+    private final int bt_tfHoehe = 23;
+    private final int btAbst = 11;
+    private final int anzBt = 8;
 
     /**
      * Create the frame.
      */
     public GUI_Sortierverfahren() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 453, 510+anzBt*34);
+        setBounds(100, 100, 453, 510 + anzBt * 34);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -155,8 +146,14 @@ public class GUI_Sortierverfahren extends JFrame {
 
         // Instanz der Datenverwaltung erzeugen
         datenverwaltung = new Datenverwaltung();
+        graphics = new GSort(datenverwaltung);
 
         this.setVisible(true);
+        new Thread(() -> {
+            while (true) {
+                graphics.render();
+            }
+        }).start();
     }
 
     // Gibt die Datensätze aus dem Objekt datenverwaltung aus
@@ -177,4 +174,6 @@ public class GUI_Sortierverfahren extends JFrame {
     public Datenverwaltung getDV(){
         return datenverwaltung;
     }
+
+
 }
