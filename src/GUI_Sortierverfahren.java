@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
  * @version 2018.03.05
  * Oberfläche zur Wiedergabe von Sortierergebnissen
  */
-public class GUI_Sortierverfahren extends JFrame {
+public class GUI_Sortierverfahren extends JPanel {
 
     private final JPanel contentPane;
     private final JTextField textFieldAnzahlDatensaetze;
@@ -29,12 +29,15 @@ public class GUI_Sortierverfahren extends JFrame {
      * Create the frame.
      */
     public GUI_Sortierverfahren() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 453, 510 + anzBt * 34);
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(100, 100, 469, 510 + anzBt * 34);
         contentPane = new JPanel();
+        frame.setResizable(false);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
+        frame.setContentPane(contentPane);
         contentPane.setLayout(null);
+
 
         textFieldAnzahlDatensaetze = new JTextField();
         textFieldAnzahlDatensaetze.setText("5");
@@ -137,7 +140,7 @@ public class GUI_Sortierverfahren extends JFrame {
         contentPane.add(lblAnzahlVergleiche);
 
         scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 166+(anzBt-1)*(+bt_tfHoehe+btAbst), 431, 337);
+        scrollPane.setBounds(10, 166 + (anzBt - 1) * (+bt_tfHoehe + btAbst), 431, 337);
         contentPane.add(scrollPane);
 
         textAreaDatensaetze = new JTextArea();
@@ -148,7 +151,7 @@ public class GUI_Sortierverfahren extends JFrame {
         datenverwaltung = new Datenverwaltung();
         graphics = new GSort(datenverwaltung);
 
-        this.setVisible(true);
+        frame.setVisible(true);
         new Thread(() -> {
             while (true) {
                 graphics.render();
