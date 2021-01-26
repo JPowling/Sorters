@@ -7,6 +7,7 @@ public class Start {
 		//oldSource.GUI_Sortierverfahren sortieren = new oldSource.GUI_Sortierverfahren();
 		new SelectionSort();
 		new BubbleSort();
+		new InsertionSort();
 		new GUI_Algos();
 	}
 
