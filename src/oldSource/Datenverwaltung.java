@@ -1,10 +1,11 @@
+package oldSource;
+
 import java.util.Random;
 
 /**
  * @author Matthias Zimmer und Uwe Seckinger (verändert Hanna Wüst)
  * @version 2018.03.05
- * Oberfläche zur Wiedergabe von Sortierergebnissen 
- *
+ * Oberfläche zur Wiedergabe von Sortierergebnissen
  */
 
 
@@ -12,7 +13,7 @@ public class Datenverwaltung {
 
     //edit Jens
     Random rnd = new Random();
-    //private GSort graphics;
+    //private sortalgorithms.GSort graphics;
 
     /**
      * Array, das die zu sortierenden Daten enthält
@@ -24,7 +25,7 @@ public class Datenverwaltung {
 
 
     public Datenverwaltung() {
-        //graphics = new GSort(this);
+        //graphics = new sortalgorithms.GSort(this);
     }
 
     /**
@@ -42,13 +43,13 @@ public class Datenverwaltung {
 
     /**
      * Methode, die die Elemente an den beiden vorgegebenen Stellen vertauscht 
-     * 
+     *
      * @param ersterIndex - Index des ersten Elements
      * @param zweiterIndex - Indes des zweiten Elements
      */
     private void tauscheElementeAnPositionen(int ersterIndex, int zweiterIndex) {
         // Element an erster Position in Zwischenspeicher merken
-        int zwischenspeicher = daten[ersterIndex]; 
+        int zwischenspeicher = daten[ersterIndex];
         // Element an zweiter Position an erste Position kopieren 
         daten[ersterIndex] = daten[zweiterIndex];
         // Element aus Zwischenspeicher in zweite Position kopieren
@@ -57,14 +58,14 @@ public class Datenverwaltung {
     }
 
     /**
-     * Sortiert die Daten im Array int[] daten mit Hilfe von SelectionSort
+     * Sortiert die Daten im Array int[] daten mit Hilfe von sortalgorithms.SelectionSort
      */
     public void selectionSort() {
         //hier an der im Unterricht vorgesehenen Stelle Quelltext für Selectionsort einfügen
-    	anzahlVergleiche = 0;
-    	long timeStart = System.currentTimeMillis(); 
-    	int b; //zeiger Bestes
-    	for(int a = 0; a < daten.length; a++) {
+        anzahlVergleiche = 0;
+        long timeStart = System.currentTimeMillis();
+        int b; //zeiger Bestes
+        for(int a = 0; a < daten.length; a++) {
             b = a;
             for (int s = a + 1; s < daten.length; s++) {
                 if (daten[b] > daten[s]) {
@@ -80,8 +81,8 @@ public class Datenverwaltung {
                 e.printStackTrace();
             }
         }
-		long timeEnd = System.currentTimeMillis();
-		laufzeit = timeEnd - timeStart;
+        long timeEnd = System.currentTimeMillis();
+        laufzeit = timeEnd - timeStart;
 
     }
 
@@ -89,13 +90,13 @@ public class Datenverwaltung {
      * sortiert die Daten im Array int[] daten mit Hilfe von BubbleSort
      */
     public void bubbleSort() {
-    	anzahlVergleiche = 0;
-    	long timeStart = System.currentTimeMillis(); 
-    	boolean getuascht = false;
-    	while(!checkSort(daten)) {
-    		for(int i = 0; i<daten.length-1; i++) {
-    			anzahlVergleiche++;
-    			if(daten[i]>daten[i+1]) {
+        anzahlVergleiche = 0;
+        long timeStart = System.currentTimeMillis();
+        boolean getuascht = false;
+        while(!checkSort(daten)) {
+            for(int i = 0; i<daten.length-1; i++) {
+                anzahlVergleiche++;
+                if(daten[i]>daten[i+1]) {
                     tauscheElementeAnPositionen(i, i + 1);
                     try {
                         Thread.sleep(10);
@@ -103,11 +104,11 @@ public class Datenverwaltung {
                         e.printStackTrace();
                     }
                 }
-    		}
-    	}
-    	
-    	long timeEnd = System.currentTimeMillis();
-		laufzeit = timeEnd - timeStart; 
+            }
+        }
+
+        long timeEnd = System.currentTimeMillis();
+        laufzeit = timeEnd - timeStart;
 
         // hier an der im Unterricht vorgesehenen Stelle Quelltext für Bubblesort einfügen
     }
@@ -120,27 +121,27 @@ public class Datenverwaltung {
         // hier an der im Unterricht vorgesehenen Stelle Quelltext für Insertionsort einfügen
 
     }
-    
+
     /**
      * Sortiert die Daten im Array int[] daten mit Hilfe von Quicksort
      */
     public void quickSort(int links, int rechts) {
         //hier an der im Unterricht vorgesehenen Stelle Quelltext für Quicksort einfügen
     }
-    
+
     /**
      * Sortiert die Daten im Array int[] daten mit Hilfe von Mergesort
      */
     public void mergeSort(int links, int rechts) {
         //hier an der im Unterricht vorgesehenen Stelle Quelltext für Mergesort einfügen
     }
-    
-    
+
+
     // --- by Jens
     public void bogosort() {
-    	anzahlVergleiche = 0;
-    	long timeStart = System.currentTimeMillis(); 
-    	while(!checkSort(daten)) {
+        anzahlVergleiche = 0;
+        long timeStart = System.currentTimeMillis();
+        while(!checkSort(daten)) {
             tauscheElementeAnPositionen(rnd.nextInt(daten.length), rnd.nextInt(daten.length));
             anzahlVergleiche++;
             try {
@@ -149,36 +150,36 @@ public class Datenverwaltung {
                 e.printStackTrace();
             }
         }
-    	long timeEnd = System.currentTimeMillis();
-		laufzeit = timeEnd - timeStart;    
+        long timeEnd = System.currentTimeMillis();
+        laufzeit = timeEnd - timeStart;
     }
-    
+
     private boolean checkSort(int[] a) {
-    	boolean retVal = false;
-    	int z = 0;
-    	for(int i=1; i< daten.length; i++) {
-    		z = a[i-1];
-    		if(z<=a[i]) {
-    			retVal = true;
-    		}else {
-    			retVal = false;
-    			break;
-    		}
-    	}
-    	return retVal;
+        boolean retVal = false;
+        int z = 0;
+        for(int i=1; i< daten.length; i++) {
+            z = a[i-1];
+            if(z<=a[i]) {
+                retVal = true;
+            }else {
+                retVal = false;
+                break;
+            }
+        }
+        return retVal;
     }
     // --- end by Jens
 
     /**********************************************************
-     * 
+     *
      * AB HIER NICHTS MEHR ÄNDERN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * 
-     ********************************************************** 
+     *
+     **********************************************************
      */
 
     /**
      * stellt das Datensatzarray für die Oberfläche bereit
-     * 
+     *
      * @return Array mit Datensätzen
      */
     public int[] getDaten() {
@@ -187,7 +188,7 @@ public class Datenverwaltung {
 
     /**
      * stellt die Anzahl der Vergleiche für die Oberfläche bereit
-     * 
+     *
      * @return Bei Algorithmus ermittelte Anzahl der Vergleiche
      */
     public long getAnzahlVergleiche() {
@@ -196,7 +197,7 @@ public class Datenverwaltung {
 
     /**
      * stellt die Laufzeit des Algorithmus für Oberfläche bereit
-     * 
+     *
      * @return Bei Algorithmus ermittelte Laufzeit
      */
     public int getLaufzeit() {

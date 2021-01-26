@@ -1,3 +1,5 @@
+package sortalgorithms;
+
 import java.util.Arrays;
 
 public class GUI_Algos {

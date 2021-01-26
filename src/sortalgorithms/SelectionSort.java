@@ -1,6 +1,8 @@
+package sortalgorithms;
+
 public class SelectionSort extends Algorithmus {
     public SelectionSort() {
-        super("SelectionSort");
+        super("sortalgorithms.SelectionSort");
         super.addAlgorithmus(this);
     }
 

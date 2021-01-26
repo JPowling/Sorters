@@ -1,3 +1,5 @@
+package sortalgorithms;
+
 public class BubbleSort extends Algorithmus {
     public BubbleSort() {
         super("BubbleSort");

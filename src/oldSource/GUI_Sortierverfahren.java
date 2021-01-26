@@ -1,3 +1,7 @@
+package oldSource;
+
+import sortalgorithms.GSort;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
@@ -47,89 +51,88 @@ public class GUI_Sortierverfahren extends JPanel {
 
         JButton btnDatensaetzeErzeugen = new JButton("zuf\u00E4llige Datens\u00E4tze erzeugen");
         btnDatensaetzeErzeugen.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent arg0) {
-                    datenverwaltung.zufaelligeDatensaetzeErzeugen(Integer.parseInt(textFieldAnzahlDatensaetze.getText()));
-                    datensaetzeAusgeben();
-                }
-            });
+            public void actionPerformed(ActionEvent arg0) {
+                datenverwaltung.zufaelligeDatensaetzeErzeugen(Integer.parseInt(textFieldAnzahlDatensaetze.getText()));
+                datensaetzeAusgeben();
+            }
+        });
         btnDatensaetzeErzeugen.setBounds(151, 10, 290, bt_tfHoehe);
         contentPane.add(btnDatensaetzeErzeugen);
 
         JButton btnDatensaetzeMitWiederholung = new JButton("Datens\u00E4tze mit Wiederholungen erzeugen");
         btnDatensaetzeMitWiederholung.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent arg0) {
-                    datenverwaltung
-                    .datensaetzeMitWiederholungErzeugen(Integer.parseInt(textFieldAnzahlDatensaetze.getText()));
-                    datensaetzeAusgeben();
-                }
-            });
+            public void actionPerformed(ActionEvent arg0) {
+                datenverwaltung
+                        .datensaetzeMitWiederholungErzeugen(Integer.parseInt(textFieldAnzahlDatensaetze.getText()));
+                datensaetzeAusgeben();
+            }
+        });
         btnDatensaetzeMitWiederholung.setBounds(151, 44, 290, bt_tfHoehe);
         contentPane.add(btnDatensaetzeMitWiederholung);
 
         JButton btnSelectionsort = new JButton("Selectionsort durchf\u00FChren");
         btnSelectionsort.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    datenverwaltung.selectionSort();
-                    datensaetzeAusgeben();
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                datenverwaltung.selectionSort();
+                datensaetzeAusgeben();
+            }
+        });
         btnSelectionsort.setBounds(10, 100, 431, bt_tfHoehe);
         contentPane.add(btnSelectionsort);
 
         JButton btnBubbleSort = new JButton("Bubblesort durchf\u00FChren");
         btnBubbleSort.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    datenverwaltung.bubbleSort();
-                    datensaetzeAusgeben();
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                datenverwaltung.bubbleSort();
+                datensaetzeAusgeben();
+            }
+        });
         btnBubbleSort.setBounds(10, 100+bt_tfHoehe+btAbst, 431, bt_tfHoehe);
         contentPane.add(btnBubbleSort);
 
         JButton btnInsertionSort = new JButton("Inerstionsort durchf\u00FChren");
         btnInsertionSort.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    datenverwaltung.insertionSort();
-                    datensaetzeAusgeben();
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                datenverwaltung.insertionSort();
+                datensaetzeAusgeben();
+            }
+        });
         btnInsertionSort.setBounds(10, 100+2*(+bt_tfHoehe+btAbst), 431, bt_tfHoehe);
         contentPane.add(btnInsertionSort);
-        
+
         JButton btnQuickSort = new JButton("Quicksort durchf\u00FChren");
         btnQuickSort.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    datenverwaltung.quickSort(0, datenverwaltung.daten.length-1);
-                    datensaetzeAusgeben();
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                datenverwaltung.quickSort(0, datenverwaltung.daten.length-1);
+                datensaetzeAusgeben();
+            }
+        });
         btnQuickSort.setBounds(10, 110+3*(+bt_tfHoehe+btAbst), 431, bt_tfHoehe);
         contentPane.add(btnQuickSort);
-        
+
         JButton btnMergeSort = new JButton("Mergesort durchf\u00FChren");
         btnMergeSort.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    datenverwaltung.mergeSort(0, datenverwaltung.daten.length-1);
-                    datensaetzeAusgeben();
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                datenverwaltung.mergeSort(0, datenverwaltung.daten.length-1);
+                datensaetzeAusgeben();
+            }
+        });
         btnMergeSort.setBounds(10, 110+4*(+bt_tfHoehe+btAbst), 431, bt_tfHoehe);
         contentPane.add(btnMergeSort);
-        
-        
+
+
         //edit Jens
         JButton btnBogosort = new JButton("Bogosort durchf\u00FChren");
         btnBogosort.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	datenverwaltung.bogosort();
+                datenverwaltung.bogosort();
                 datensaetzeAusgeben();
             }
         });
         btnBogosort.setBounds(10, 120+5*(+bt_tfHoehe+btAbst), 431, bt_tfHoehe);
         contentPane.add(btnBogosort);
         //end edit Jens
-        
-        
+
 
         lblSortierdauer = new JLabel("Sortierdauer: 0 s ");
         lblSortierdauer.setBounds(10, 128+(anzBt-1)*(+bt_tfHoehe+btAbst), 431, 14);
