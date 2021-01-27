@@ -2,26 +2,29 @@ package sortalgorithms;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 class GUI_Sort extends JFrame {
 
-    private final int SCWIDTH = 1920 / 2;
-    private final int SCHIGHT = 1080 / 2;
-    private final int SETTINGSWIDTH = 300;
-    private final int CONTROLHIGHT = 150;
+    private final int SCREEN_WIDTH = 1920 / 2;
+    private final int SCREEN_HEIGHT = 1080 / 2;
+
+    private final int SETTINGS_WIDTH = 300;
+    private final int CONTROL_HEIGHT = 150;
+    public static final int DEFAULT_ARRAY_SIZE = 100;
+
     private final GridBagLayout gbl = new GridBagLayout();
     private final GridBagConstraints gbc = new GridBagConstraints();
+
     private GSort graphics;
+
     private JPanel settings;
     private JPanel control;
     private JPanel visualisation;
+
     private JTextField sizeArray;
     private JButton btnStartStop;
-    public static final int DEFSIZE = 100;
     private JButton btnFillArray;
     private JComboBox<String> algoBox;
     private boolean arrayFilled;
@@ -29,33 +32,35 @@ class GUI_Sort extends JFrame {
 
     public GUI_Sort() {
         super("Screen");
-        makeScreen();
-        makeSettings();
-        listener();
+
+        createScreen();
+        setupScreen();
         makeVisuals();
+
+        listener();
         this.pack();
     }
 
-    private void makeScreen() {
+    private void createScreen() {
         setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(SCWIDTH, SCHIGHT);
-        this.setPreferredSize(new Dimension(SCWIDTH, SCHIGHT));
+        this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 
         //set settings
         settings = new JPanel(new BorderLayout());
         settings.setBackground(Color.gray);
-        settings.setPreferredSize(new Dimension(SETTINGSWIDTH, SCHIGHT));
+        settings.setPreferredSize(new Dimension(SETTINGS_WIDTH, SCREEN_HEIGHT));
 
         //set control
         control = new JPanel();
         control.setBackground(Color.LIGHT_GRAY);
-        control.setPreferredSize(new Dimension(SCWIDTH - SETTINGSWIDTH, CONTROLHIGHT));
+        control.setPreferredSize(new Dimension(SCREEN_WIDTH - SETTINGS_WIDTH, CONTROL_HEIGHT));
 
         //set visualisation
         visualisation = new JPanel();
         visualisation.setBackground(Color.BLACK);
-        visualisation.setPreferredSize(new Dimension(SCWIDTH - SETTINGSWIDTH, SCHIGHT - CONTROLHIGHT));
+        visualisation.setPreferredSize(new Dimension(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT));
 
 
         JPanel screen = new JPanel(new BorderLayout());
@@ -69,7 +74,7 @@ class GUI_Sort extends JFrame {
         this.setVisible(true);
     }
 
-    private void makeSettings() {
+    private void setupScreen() {
         JPanel top = new JPanel(gbl);
         sizeArray = new JTextField("enter arraysize", 1);
         sizeArray.setPreferredSize(new Dimension(100, 20));
@@ -126,8 +131,10 @@ class GUI_Sort extends JFrame {
 
     private void makeVisuals() {
         Algorithmus.fillEmpty();
-        graphics = new GSort(SCWIDTH - SETTINGSWIDTH, SCHIGHT - CONTROLHIGHT);
+
+        graphics = new GSort(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT);
         visualisation.add(graphics);
+
         new Thread(() -> {
             while (true) {
                 graphics.render();
@@ -136,28 +143,21 @@ class GUI_Sort extends JFrame {
     }
 
     private void listener() {
-
         //Button Start/Stop
-        btnStartStop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Algorithmus.isRunning()) {
-                    btnStartStop.setText("Start");
-                    Algorithmus.stopSort();
-                } else {
-                    sort(algoBox.getSelectedIndex());
-                    btnStartStop.setText("Stop");
-                }
+        btnStartStop.addActionListener(e -> {
+            if (Algorithmus.isRunning()) {
+                btnStartStop.setText("Start");
+                Algorithmus.stopSort();
+            } else {
+                sort(algoBox.getSelectedIndex());
+                btnStartStop.setText("Stop");
             }
         });
 
         //Button fill Array
-        btnFillArray.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Algorithmus.fillDaten(savetoInt(sizeArray.getText()));
-                arrayFilled = true;
-            }
+        btnFillArray.addActionListener(e -> {
+            Algorithmus.fillDaten(getSizeFromTextField());
+            arrayFilled = true;
         });
 
         //TextField sizeArray
@@ -176,22 +176,26 @@ class GUI_Sort extends JFrame {
 
     private void sort(int n) {
         String a = sizeArray.getText();
+
         if (!arrayFilled) {
-            Algorithmus.fillDaten(DEFSIZE);
+            Algorithmus.fillDaten(DEFAULT_ARRAY_SIZE);
         } else {
             Algorithmus.fillDaten(Integer.parseInt(a));
         }
+
         Algorithmus.getAlgorithmus(n).sort();
     }
 
-    private int savetoInt(String eingabe) {
+    private int getSizeFromTextField() {
         int a;
+
         try {
             a = Integer.parseInt(sizeArray.getText());
         } catch (NumberFormatException exc) {
-            System.out.println(exc);
-            a = DEFSIZE;
-            sizeArray.setText(String.valueOf(DEFSIZE));
+            exc.printStackTrace();
+
+            a = DEFAULT_ARRAY_SIZE;
+            sizeArray.setText(String.valueOf(DEFAULT_ARRAY_SIZE));
         }
         return a;
     }

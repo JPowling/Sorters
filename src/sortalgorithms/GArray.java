@@ -5,11 +5,15 @@ import java.awt.*;
 public class GArray {
 	public void render(Graphics g) throws InterruptedException {
 		g.clearRect(0, 0, GSort.width, GSort.height);
+
 		g.setColor(Color.blue);
+
 		float num1 = (float) GSort.height - 300;
 		float num2 = (float) Algorithmus.daten.length / 3;
 		double scale = num1 / num2;
+
 		int width = GSort.width / ((Algorithmus.daten.length) + 1);
+
 		//System.out.println(GSort.width + ", " + GSort.height);
 		//System.out.println(scale);
 		for (int i = 0; i < Algorithmus.daten.length; i++) {
