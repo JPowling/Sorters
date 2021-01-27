@@ -175,7 +175,7 @@ class GUI_Sort extends JFrame {
     }
 
     private void sort(int n) {
-        if (!arrayFilled) {
+        if (!arrayFilled || Algorithmus.checkSort()) {
             Algorithmus.fillDaten(getSizeFromTextField());
         }
 

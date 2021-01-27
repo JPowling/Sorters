@@ -96,7 +96,7 @@ public abstract class Algorithmus {
         return daten[i1] > daten[i2];
     }
 
-    public boolean checkSort() {
+    public static boolean checkSort() {
         for (int i = 0; i < daten.length - 1; i++) {
             if (daten[i] > daten[i + 1]) {
                 return false;
