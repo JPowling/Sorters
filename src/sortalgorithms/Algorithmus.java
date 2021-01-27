@@ -1,8 +1,8 @@
 package sortalgorithms;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
+
 
 public abstract class Algorithmus {
 
@@ -79,8 +79,22 @@ public abstract class Algorithmus {
         return Algorithmus.running;
     }
 
-    public static void stopSortThread() {
+
+    public void swap(int i1, int i2) {
+        swappedElements.clear();
+        swappedElements.add(i1);
+        swappedElements.add(i2);
+
+        int zS = daten[i1];
+        daten[i1] = daten[i2];
+        daten[i2] = zS;
+
+        numTausch++;
+    }
+    
+  public static void stopSortThread() {
         clearHighlights();
+
 
         System.out.println("stopped sortThread");
 
@@ -89,10 +103,25 @@ public abstract class Algorithmus {
         sortThread.stop();
     }
 
+
+    /**
+     * @param i1 first Index
+     * @param i2 second Index
+     * @return true wenn i1 größer als i2
+     */
+    public boolean compare(int i1, int i2) {
+        comparedElements.clear();
+        comparedElements.add(i1);
+        comparedElements.add(i2);
+
+        numVergl++;
+        return daten[i1] > daten[i2];
+    }
     public static void startSortThread() {
         running = true;
         GUI_Sort.setBtnStartStopLabel("Stop");
         sortThread.start();
+
     }
 
     public static boolean checkSort() {
@@ -148,6 +177,15 @@ public abstract class Algorithmus {
         Algorithmus.delay = delay;
     }
 
+
+    public static void stopSort() {
+        clearHighlights();
+
+        running = false;
+        sortThread.stop();
+        System.out.println("stopped sortThread");
+    }
+   
     private static void clearHighlights() {
         swappedElements.clear();
         comparedElements.clear();
@@ -199,5 +237,10 @@ public abstract class Algorithmus {
             System.out.println("Sorted");
         });
         Algorithmus.startSortThread();
+    }
+
+    private static void clearHighlights() {
+        swappedElements.clear();
+        comparedElements.clear();
     }
 }
