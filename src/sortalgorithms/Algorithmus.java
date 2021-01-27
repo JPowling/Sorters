@@ -166,12 +166,16 @@ public abstract class Algorithmus {
     }
 
     public static void stopSort() {
+        clearHighlights();
+
         running = false;
         sortThread.stop();
         System.out.println("stopped sortThread");
     }
 
     public void sort() {
+        clearHighlights();
+
         System.out.println("Sorting with " + name + "...");
 
         sortThread = new Thread(() -> {
@@ -181,5 +185,10 @@ public abstract class Algorithmus {
         });
 
         sortThread.start();
+    }
+
+    private static void clearHighlights() {
+        swappedElements.clear();
+        comparedElements.clear();
     }
 }
