@@ -1,8 +1,6 @@
 package sortalgorithms;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public abstract class Algorithmus {
 
@@ -10,6 +8,9 @@ public abstract class Algorithmus {
     private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
     private static int delay = 5;
     public static int[] daten = new int[1];
+    protected static final List<Integer> comparedElements = new ArrayList<>();
+    protected static final List<Integer> swappedElements = new ArrayList<>();
+
     private static int numTausch;
     private static int numVergl;
     private String name;
@@ -47,6 +48,14 @@ public abstract class Algorithmus {
         return algoList.size();
     }
 
+    public static List<Integer> getComparedElements() {
+        return comparedElements;
+    }
+
+    public static List<Integer> getSwappedElements() {
+        return swappedElements;
+    }
+
     protected abstract void internalSort();
 
     public void sort() {
@@ -56,11 +65,14 @@ public abstract class Algorithmus {
     }
 
     public void swap(int i1, int i2) {
+        swappedElements.clear();
+        swappedElements.add(i1);
+        swappedElements.add(i2);
+
         int zS = daten[i1];
         daten[i1] = daten[i2];
         daten[i2] = zS;
         numTausch++;
-        System.out.println(Arrays.toString(daten));
 
         if (delay == 0)
             return;
@@ -78,6 +90,10 @@ public abstract class Algorithmus {
      * @return true wenn i1 größer als i2
      */
     public boolean compare(int i1, int i2) {
+        comparedElements.clear();
+        comparedElements.add(i1);
+        comparedElements.add(i2);
+
         numVergl++;
         return daten[i1] > daten[i2];
     }
