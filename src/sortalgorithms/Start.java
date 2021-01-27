@@ -1,14 +1,16 @@
 package sortalgorithms;
 
+import algorithmen.BubbleSort;
+import algorithmen.InsertionSort;
+import algorithmen.SelectionSort;
+
 public class Start {
 
 	public static void main(String[] args) {
-
-		//oldSource.GUI_Sortierverfahren sortieren = new oldSource.GUI_Sortierverfahren();
+		new SelectionSort();
 		new BubbleSort();
 		new InsertionSort();
-		new SelectionSort();
-		new GUI_Algos();
+		new GUI_Sort();
 	}
 
 }

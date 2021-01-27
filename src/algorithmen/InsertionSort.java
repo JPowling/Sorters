@@ -1,10 +1,11 @@
-package sortalgorithms;
+package algorithmen;
+
+import sortalgorithms.Algorithmus;
 
 public class InsertionSort extends Algorithmus {
 
-	InsertionSort() {
-		super("Insertion Sort");
-		addAlgorithmus(this);
+	public InsertionSort() {
+		super("InsertionSort");
 	}
 
 	@Override

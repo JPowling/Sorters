@@ -8,15 +8,16 @@ public abstract class Algorithmus {
 
     private static final Random rnd = new Random();
     private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
-    private static final int delay = 0;
+    private static int delay = 5;
     public static int[] daten = new int[1];
     private static int numTausch;
     private static int numVergl;
     private String name;
 
 
-    Algorithmus(String name) {
+    public Algorithmus(String name) {
         this.name = name;
+        addAlgorithmus(this);
     }
 
     public static void fillDaten(int max) {
@@ -102,12 +103,12 @@ public abstract class Algorithmus {
         numTausch = 0;
     }
 
-    public void incTausch() { //useless?
-        numTausch++;
-    }
-
     public int getNumTausch() {
         return numTausch;
+    }
+
+    public void incTausch() { //useless?
+        numTausch++;
     }
 
     public void resetNumVergl() {
@@ -126,5 +127,7 @@ public abstract class Algorithmus {
         return delay;
     }
 
-
+    public void setDelay(int delay) {
+        Algorithmus.delay = delay;
+    }
 }

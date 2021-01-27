@@ -1,32 +1,19 @@
 package sortalgorithms;
 
-import oldSource.Datenverwaltung;
-
 import java.awt.*;
 
 public class GArray {
-
-
-	private final Datenverwaltung dvw;
-	private GSort gSort;
-
-	public GArray(Datenverwaltung dvw) {
-		this.dvw = dvw;
-	}
-
 	public void render(Graphics g) throws InterruptedException {
-		g.clearRect(0, 0, GSort.WIDTH, GSort.HIGHT);
+		g.clearRect(0, 0, GSort.width, GSort.height);
 		g.setColor(Color.blue);
-		float num1 = (float) GSort.HIGHT - 150;
-		float num2 = (float) dvw.daten.length * 10;
+		float num1 = (float) GSort.height - 300;
+		float num2 = (float) Algorithmus.daten.length / 3;
 		double scale = num1 / num2;
-		int width = GSort.WIDTH / ((dvw.daten.length) + 1);
+		int width = GSort.width / ((Algorithmus.daten.length) + 1);
+		System.out.println(GSort.width + ", " + GSort.height);
 		System.out.println(scale);
-		for (int i = 0; i < dvw.daten.length; i++) {
-			g.fillRect(20 + i * width, GSort.HIGHT - 100, width, (int) Math.round((-dvw.daten[i] * scale) - 10));
-			System.out.print(dvw.daten[i] + " ");
+		for (int i = 0; i < Algorithmus.daten.length; i++) {
+			g.fillRect(20 + i * width, GSort.height - 100, width, (int) Math.round((-Algorithmus.daten[i] * scale) - 10));
 		}
-		System.out.println();
-
 	}
 }
