@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 class GUI_Sort extends JFrame {
 
@@ -68,6 +70,19 @@ class GUI_Sort extends JFrame {
         JPanel top = new JPanel(gbl);
         sizeArray = new JTextField("enter arraysize", 1);
         sizeArray.setPreferredSize(new Dimension(100, 20));
+
+        sizeArray.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                sizeArray.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+
+            }
+        });
+
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
