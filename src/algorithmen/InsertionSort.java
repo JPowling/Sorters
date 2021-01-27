@@ -3,12 +3,10 @@ package algorithmen;
 import sortalgorithms.Algorithmus;
 
 public class InsertionSort extends Algorithmus {
-
 	public InsertionSort() {
-		super("InsertionSort");
+		super();
 	}
 
-	@Override
 	protected void internalSort() {
 		for (int first = 0; first < daten.length - 1; first++) {
 			int next = first + 1;
