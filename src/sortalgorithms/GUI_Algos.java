@@ -11,7 +11,7 @@ public class GUI_Algos {
         }
         Algorithmus.fillDaten(100);
         System.out.println(Arrays.toString(Algorithmus.daten));
-        Algorithmus sortAlgo = Algorithmus.getAlgorithmus(1);
+        Algorithmus sortAlgo = Algorithmus.getAlgorithmus(2);
         sortAlgo.sort();
         System.out.println(Arrays.toString(Algorithmus.daten));
     }
