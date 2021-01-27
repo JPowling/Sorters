@@ -21,7 +21,10 @@ class GUI_Sort extends JFrame {
     private JPanel visualisation;
     private JTextField sizeArray;
     private JButton btnSort;
-    private JComboBox algoBox;
+    public static final int DEFSIZE = 100;
+    private JButton btnFillArray;
+    private JComboBox<String> algoBox;
+    private boolean arrayFilled;
 
 
     public GUI_Sort() {
@@ -71,18 +74,7 @@ class GUI_Sort extends JFrame {
         sizeArray = new JTextField("enter arraysize", 1);
         sizeArray.setPreferredSize(new Dimension(100, 20));
 
-        sizeArray.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent focusEvent) {
-                sizeArray.setText("");
-            }
-
-            @Override
-            public void focusLost(FocusEvent focusEvent) {
-
-            }
-        });
-
+        //Array eingabe Textfield
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
@@ -93,20 +85,33 @@ class GUI_Sort extends JFrame {
         gbl.setConstraints(sizeArray, gbc);
         top.add(sizeArray);
 
+        //Button Sort
         btnSort = new JButton("Start");
         gbc.gridx = 6;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.weightx = 0;
         gbl.setConstraints(btnSort, gbc);
         top.add(btnSort);
 
+        //Button fillArray
+        btnFillArray = new JButton("fill Array");
+        gbc.gridx = 6;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0;
+        gbl.setConstraints(btnFillArray, gbc);
+        top.add(btnFillArray);
+        arrayFilled = false;
+
+        //Combobox
         String[] list = new String[Algorithmus.getAlgoSize()];
         for (int i = 0; i < Algorithmus.getAlgoSize(); i++) {
             list[i] = Algorithmus.getAlgorithmus(i).getName();
         }
-        algoBox = new JComboBox(list);
+        algoBox = new JComboBox<>(list);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 4;
@@ -120,6 +125,7 @@ class GUI_Sort extends JFrame {
     }
 
     private void makeVisuals() {
+        Algorithmus.fillEmpty();
         graphics = new GSort(SCWIDTH - SETTINGSWIDTH, SCHIGHT - CONTROLHIGHT);
         visualisation.add(graphics);
         new Thread(() -> {
@@ -136,14 +142,46 @@ class GUI_Sort extends JFrame {
                 sort(algoBox.getSelectedIndex());
             }
         });
+
+        btnFillArray.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Algorithmus.fillDaten(savetoInt(sizeArray.getText()));
+                arrayFilled = true;
+            }
+        });
+
+        sizeArray.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                sizeArray.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+
+            }
+        });
     }
 
     private void sort(int n) {
         String a = sizeArray.getText();
-        if (a.equals("enter_arraysize")) {
-            a = "100";
+        if (!arrayFilled) {
+            Algorithmus.fillDaten(savetoInt(sizeArray.getText()));
         }
         Algorithmus.fillDaten(Integer.parseInt(a));
         Algorithmus.getAlgorithmus(n).sort();
+    }
+
+    private int savetoInt(String eingabe) {
+        int a;
+        try {
+            a = Integer.parseInt(sizeArray.getText());
+        } catch (NumberFormatException exc) {
+            System.out.println(exc);
+            a = DEFSIZE;
+            sizeArray.setText(String.valueOf(DEFSIZE));
+        }
+        return a;
     }
 }

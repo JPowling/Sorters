@@ -1,7 +1,6 @@
 package sortalgorithms;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public abstract class Algorithmus {
@@ -39,6 +38,13 @@ public abstract class Algorithmus {
         }
     }
 
+    public static void fillEmpty() {
+        daten = new int[GUI_Sort.DEFSIZE];
+        for (int i = 0; i < GUI_Sort.DEFSIZE; i++) {
+            daten[i] = 0;
+        }
+    }
+
     public static Algorithmus getAlgorithmus(int a) {
         return algoList.get(a);
     }
@@ -60,7 +66,7 @@ public abstract class Algorithmus {
         daten[i1] = daten[i2];
         daten[i2] = zS;
         numTausch++;
-        System.out.println(Arrays.toString(daten));
+        //System.out.println(Arrays.toString(daten));
 
         if (delay == 0)
             return;
