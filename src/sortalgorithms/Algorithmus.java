@@ -60,12 +60,16 @@ public abstract class Algorithmus {
         daten[i1] = daten[i2];
         daten[i2] = zS;
         numTausch++;
+        System.out.println(Arrays.toString(daten));
+
+        if (delay == 0)
+            return;
+
         try {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(Arrays.toString(daten));
     }
 
     /**
