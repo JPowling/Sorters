@@ -16,6 +16,7 @@ public abstract class Algorithmus {
 
     public Algorithmus(String name) {
         this.name = name;
+        addAlgorithmus(this);
     }
 
     public static void fillDaten(int max) {

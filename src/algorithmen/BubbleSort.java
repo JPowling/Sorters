@@ -5,7 +5,6 @@ import sortalgorithms.Algorithmus;
 public class BubbleSort extends Algorithmus {
     public BubbleSort() {
         super("BubbleSort");
-        super.addAlgorithmus(this);
     }
 
     public void internalSort() {
