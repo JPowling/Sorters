@@ -12,9 +12,9 @@ public class Start {
 	}
 
 	private static void setup() {
-		new WorseBogoSort();
 		new BubbleSort();
 		new InsertionSort();
 		new SelectionSort();
+		new WorseBogoSort();
 	}
 }

@@ -20,7 +20,7 @@ class GUI_Sort extends JFrame {
     private JPanel control;
     private JPanel visualisation;
     private JTextField sizeArray;
-    private JButton btnSort;
+    private JButton btnStartStop;
     public static final int DEFSIZE = 100;
     private JButton btnFillArray;
     private JComboBox<String> algoBox;
@@ -85,15 +85,15 @@ class GUI_Sort extends JFrame {
         gbl.setConstraints(sizeArray, gbc);
         top.add(sizeArray);
 
-        //Button Sort
-        btnSort = new JButton("Start");
+        //Button Start/Stop
+        btnStartStop = new JButton("Start");
         gbc.gridx = 6;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.weightx = 0;
-        gbl.setConstraints(btnSort, gbc);
-        top.add(btnSort);
+        gbl.setConstraints(btnStartStop, gbc);
+        top.add(btnStartStop);
 
         //Button fillArray
         btnFillArray = new JButton("fill Array");
@@ -136,13 +136,22 @@ class GUI_Sort extends JFrame {
     }
 
     private void listener() {
-        btnSort.addActionListener(new ActionListener() {
+
+        //Button Start/Stop
+        btnStartStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sort(algoBox.getSelectedIndex());
+                if (Algorithmus.isRunning()) {
+                    btnStartStop.setText("Start");
+                    Algorithmus.stopSort();
+                } else {
+                    sort(algoBox.getSelectedIndex());
+                    btnStartStop.setText("Stop");
+                }
             }
         });
 
+        //Button fill Array
         btnFillArray.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -151,6 +160,7 @@ class GUI_Sort extends JFrame {
             }
         });
 
+        //TextField sizeArray
         sizeArray.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
@@ -167,9 +177,10 @@ class GUI_Sort extends JFrame {
     private void sort(int n) {
         String a = sizeArray.getText();
         if (!arrayFilled) {
-            Algorithmus.fillDaten(savetoInt(sizeArray.getText()));
+            Algorithmus.fillDaten(DEFSIZE);
+        } else {
+            Algorithmus.fillDaten(Integer.parseInt(a));
         }
-        Algorithmus.fillDaten(Integer.parseInt(a));
         Algorithmus.getAlgorithmus(n).sort();
     }
 

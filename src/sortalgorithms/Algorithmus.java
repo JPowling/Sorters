@@ -12,6 +12,8 @@ public abstract class Algorithmus {
     private static int numTausch;
     private static int numVergl;
     private String name;
+    public static Thread sortThread;
+    private static boolean running;
 
 
     public Algorithmus() {
@@ -55,10 +57,8 @@ public abstract class Algorithmus {
 
     protected abstract void internalSort();
 
-    public void sort() {
-        System.out.println("Sorting with " + name + "...");
-        internalSort();
-        System.out.println("Sorted");
+    public static boolean isRunning() {
+        return running;
     }
 
     public void swap(int i1, int i2) {
@@ -139,5 +139,21 @@ public abstract class Algorithmus {
 
     public void setDelay(int delay) {
         Algorithmus.delay = delay;
+    }
+
+    public static void stopSort() {
+        running = false;
+        sortThread.stop();
+        System.out.println("stopped sortThread");
+    }
+
+    public void sort() {
+        System.out.println("Sorting with " + name + "...");
+        sortThread = new Thread(() -> {
+            running = true;
+            internalSort();
+            System.out.println("Sorted");
+        });
+        sortThread.start();
     }
 }
