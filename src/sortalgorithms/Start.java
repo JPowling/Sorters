@@ -1,6 +1,7 @@
 package sortalgorithms;
 
 import algorithmen.BubbleSort;
+import algorithmen.InsertionSort;
 import algorithmen.SelectionSort;
 
 public class Start {
@@ -9,7 +10,7 @@ public class Start {
 		new SelectionSort();
 		new BubbleSort();
 		new InsertionSort();
-		new GUI_Algos();
+		new GUI_Sort();
 	}
 
 }
