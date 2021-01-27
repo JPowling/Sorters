@@ -1,4 +1,6 @@
-package sortalgorithms;
+package algorithmen;
+
+import sortalgorithms.Algorithmus;
 
 public class BubbleSort extends Algorithmus {
     public BubbleSort() {

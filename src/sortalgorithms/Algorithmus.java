@@ -14,7 +14,7 @@ public abstract class Algorithmus {
     private String name;
 
 
-    Algorithmus(String name) {
+    public Algorithmus(String name) {
         this.name = name;
     }
 
