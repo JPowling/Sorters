@@ -1,6 +1,7 @@
 package sortalgorithms;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public abstract class Algorithmus {
@@ -64,6 +65,7 @@ public abstract class Algorithmus {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println(Arrays.toString(daten));
     }
 
     /**
