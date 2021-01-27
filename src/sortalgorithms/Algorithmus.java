@@ -1,7 +1,9 @@
 package sortalgorithms;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public abstract class Algorithmus {
@@ -10,7 +12,7 @@ public abstract class Algorithmus {
 
     private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
 
-    private static int delay = 5;
+    private static int delay = 10;
     public static int[] daten = new int[1];
 
     protected static final List<Integer> comparedElements = new ArrayList<>();
@@ -79,7 +81,7 @@ public abstract class Algorithmus {
         return Algorithmus.running;
     }
 
-
+/*      es gibt noch ne swap() methode, mit delay, hab mich für die entschieden
     public void swap(int i1, int i2) {
         swappedElements.clear();
         swappedElements.add(i1);
@@ -91,6 +93,8 @@ public abstract class Algorithmus {
 
         numTausch++;
     }
+
+ */
     
   public static void stopSortThread() {
         clearHighlights();
@@ -212,20 +216,6 @@ public abstract class Algorithmus {
         }
     }
 
-    /**
-     * @param i1 first Index
-     * @param i2 second Index
-     * @return true wenn i1 größer als i2
-     */
-    public boolean compare(int i1, int i2) {
-        comparedElements.clear();
-        comparedElements.add(i1);
-        comparedElements.add(i2);
-
-        numVergl++;
-        return daten[i1] > daten[i2];
-    }
-
     public void sort() {
         clearHighlights();
 
@@ -237,10 +227,5 @@ public abstract class Algorithmus {
             System.out.println("Sorted");
         });
         Algorithmus.startSortThread();
-    }
-
-    private static void clearHighlights() {
-        swappedElements.clear();
-        comparedElements.clear();
     }
 }
