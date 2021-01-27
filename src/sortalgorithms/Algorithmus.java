@@ -15,13 +15,13 @@ public abstract class Algorithmus {
     private String name;
 
 
-    public Algorithmus(String name) {
-        this.name = name;
+    public Algorithmus() {
+        name = this.getClass().getSimpleName();
         addAlgorithmus(this);
     }
 
     public static void fillDaten(int max) {
-        int a = 0;
+        int a;
         daten = new int[max];
         boolean[] used = new boolean[max];
         for (int i = 0; i < max; i++) {

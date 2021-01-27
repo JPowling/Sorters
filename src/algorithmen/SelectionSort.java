@@ -4,7 +4,7 @@ import sortalgorithms.Algorithmus;
 
 public class SelectionSort extends Algorithmus {
     public SelectionSort() {
-        super("SelectionSort");
+        super();
     }
 
     public void internalSort() {
