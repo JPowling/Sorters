@@ -2,7 +2,7 @@ package sortalgorithms;
 
 public class SelectionSort extends Algorithmus {
     public SelectionSort() {
-        super("sortalgorithms.SelectionSort");
+        super("SelectionSort");
         super.addAlgorithmus(this);
     }
 
