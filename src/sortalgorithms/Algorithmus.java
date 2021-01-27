@@ -74,7 +74,7 @@ public abstract class Algorithmus {
     protected abstract void internalSort();
 
     public static boolean isRunning() {
-        return running;
+        return Algorithmus.running;
     }
 
     public void swap(int i1, int i2) {
