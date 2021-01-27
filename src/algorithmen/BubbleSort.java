@@ -3,10 +3,6 @@ package algorithmen;
 import sortalgorithms.Algorithmus;
 
 public class BubbleSort extends Algorithmus {
-    public BubbleSort() {
-        super();
-    }
-
     public void internalSort() {
         System.out.println("sorting BubbleSort...");
         while (!checkSort()) {

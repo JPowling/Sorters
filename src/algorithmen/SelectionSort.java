@@ -3,10 +3,6 @@ package algorithmen;
 import sortalgorithms.Algorithmus;
 
 public class SelectionSort extends Algorithmus {
-    public SelectionSort() {
-        super();
-    }
-
     public void internalSort() {
         int smallest;
         for (int first = 0; first < daten.length; first++) {
