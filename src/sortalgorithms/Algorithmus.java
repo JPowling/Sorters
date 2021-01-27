@@ -151,7 +151,7 @@ public abstract class Algorithmus {
 
     public static void stopSort() {
         running = false;
-        sortThread.interrupt();
+        sortThread.stop();
         System.out.println("stopped sortThread");
     }
 
