@@ -1,18 +1,24 @@
 package sortalgorithms;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public abstract class Algorithmus {
 
     private static final Random rnd = new Random();
+
     private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
+
     private static int delay = 5;
     public static int[] daten = new int[1];
+
     private static int numTausch;
     private static int numVergl;
+
     private String name;
+
+    public static Thread sortThread;
+    private static boolean running;
 
 
     public Algorithmus() {
@@ -21,21 +27,30 @@ public abstract class Algorithmus {
     }
 
     public static void fillDaten(int max) {
-        int a;
         daten = new int[max];
         boolean[] used = new boolean[max];
+
         for (int i = 0; i < max; i++) {
             used[i] = false;
         }
         for (int i = 0; i < max; i++) {
             while (true) {
-                a = rnd.nextInt(max);
+                int a = rnd.nextInt(max);
+
                 if (!used[a]) {
                     used[a] = true;
                     daten[i] = a;
                     break;
                 }
             }
+        }
+    }
+
+    public static void fillEmpty() {
+        daten = new int[GUI_Sort.DEFAULT_ARRAY_SIZE];
+
+        for (int i = 0; i < GUI_Sort.DEFAULT_ARRAY_SIZE; i++) {
+            daten[i] = 0;
         }
     }
 
@@ -49,18 +64,17 @@ public abstract class Algorithmus {
 
     protected abstract void internalSort();
 
-    public void sort() {
-        System.out.println("Sorting with " + name + "...");
-        internalSort();
-        System.out.println("Sorted");
+    public static boolean isRunning() {
+        return running;
     }
 
     public void swap(int i1, int i2) {
         int zS = daten[i1];
         daten[i1] = daten[i2];
         daten[i2] = zS;
+
         numTausch++;
-        System.out.println(Arrays.toString(daten));
+        //System.out.println(Arrays.toString(daten));
 
         if (delay == 0)
             return;
@@ -133,5 +147,23 @@ public abstract class Algorithmus {
 
     public void setDelay(int delay) {
         Algorithmus.delay = delay;
+    }
+
+    public static void stopSort() {
+        running = false;
+        sortThread.interrupt();
+        System.out.println("stopped sortThread");
+    }
+
+    public void sort() {
+        System.out.println("Sorting with " + name + "...");
+
+        sortThread = new Thread(() -> {
+            running = true;
+            internalSort();
+            System.out.println("Sorted");
+        });
+
+        sortThread.start();
     }
 }
