@@ -4,10 +4,10 @@ import sortalgorithms.Algorithmus;
 
 import java.util.Random;
 
-public class BogoSort extends Algorithmus {
+public class WorseBogoSort extends Algorithmus {
     private final Random rnd = new Random();
 
-    public BogoSort() {
+    public WorseBogoSort() {
         super("BogoSort");
     }
 
