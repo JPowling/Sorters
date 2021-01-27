@@ -24,7 +24,8 @@ class GUI_Sort extends JFrame {
     private JPanel visualisation;
 
     private static JTextField sizeArray;
-    private JButton btnStartStop;
+    private static JButton btnStartStop;
+    private static String btnStartStopLabel;
     private JButton btnFillArray;
     private JComboBox<String> algoBox;
     private boolean arrayFilled;
@@ -74,6 +75,38 @@ class GUI_Sort extends JFrame {
         this.setVisible(true);
     }
 
+    public static int getSizeFromTextField() {
+        int a;
+
+        try {
+            a = Integer.parseInt(sizeArray.getText());
+        } catch (NumberFormatException exc) {
+            //exc.printStackTrace(); //nicht printen, weil der Fehler kommen darf, und nervt...
+
+            a = DEFAULT_ARRAY_SIZE;
+            sizeArray.setText(String.valueOf(DEFAULT_ARRAY_SIZE));
+        }
+        return a;
+    }
+
+    private void makeVisuals() {
+        Algorithmus.fillEmpty();
+
+        graphics = new GSort(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT);
+        visualisation.add(graphics);
+
+        new Thread(() -> {
+            while (true) {
+                graphics.render();
+            }
+        }).start();
+    }
+
+    public static void setBtnStartStopLabel(String label) {
+        GUI_Sort.btnStartStopLabel = label;
+        GUI_Sort.btnStartStop.setText(GUI_Sort.btnStartStopLabel);
+    }
+
     private void setupScreen() {
         JPanel top = new JPanel(gbl);
         sizeArray = new JTextField("enter arraysize", 1);
@@ -91,7 +124,8 @@ class GUI_Sort extends JFrame {
         top.add(sizeArray);
 
         //Button Start/Stop
-        btnStartStop = new JButton("Start");
+        GUI_Sort.btnStartStopLabel = "Start";
+        btnStartStop = new JButton(btnStartStopLabel);
         gbc.gridx = 6;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
@@ -129,28 +163,13 @@ class GUI_Sort extends JFrame {
         settings.setVisible(true);
     }
 
-    private void makeVisuals() {
-        Algorithmus.fillEmpty();
-
-        graphics = new GSort(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT);
-        visualisation.add(graphics);
-
-        new Thread(() -> {
-            while (true) {
-                graphics.render();
-            }
-        }).start();
-    }
-
     private void listener() {
         //Button Start/Stop
         btnStartStop.addActionListener(e -> {
             if (Algorithmus.isRunning()) {
-                btnStartStop.setText("Start");
-                Algorithmus.stopSort();
+                Algorithmus.stopSortThread();
             } else {
                 sort(algoBox.getSelectedIndex());
-                btnStartStop.setText("Stop");
             }
         });
 
@@ -181,19 +200,5 @@ class GUI_Sort extends JFrame {
         }
 
         Algorithmus.getAlgorithmus(n).sort();
-    }
-
-    public static int getSizeFromTextField() {
-        int a;
-
-        try {
-            a = Integer.parseInt(sizeArray.getText());
-        } catch (NumberFormatException exc) {
-            exc.printStackTrace();
-
-            a = DEFAULT_ARRAY_SIZE;
-            sizeArray.setText(String.valueOf(DEFAULT_ARRAY_SIZE));
-        }
-        return a;
     }
 }
