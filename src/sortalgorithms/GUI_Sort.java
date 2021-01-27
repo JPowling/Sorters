@@ -23,7 +23,7 @@ class GUI_Sort extends JFrame {
     private JPanel control;
     private JPanel visualisation;
 
-    private JTextField sizeArray;
+    private static JTextField sizeArray;
     private JButton btnStartStop;
     private JButton btnFillArray;
     private JComboBox<String> algoBox;
@@ -175,18 +175,14 @@ class GUI_Sort extends JFrame {
     }
 
     private void sort(int n) {
-        String a = sizeArray.getText();
-
         if (!arrayFilled) {
-            Algorithmus.fillDaten(DEFAULT_ARRAY_SIZE);
-        } else {
-            Algorithmus.fillDaten(Integer.parseInt(a));
+            Algorithmus.fillDaten(getSizeFromTextField());
         }
 
         Algorithmus.getAlgorithmus(n).sort();
     }
 
-    private int getSizeFromTextField() {
+    public static int getSizeFromTextField() {
         int a;
 
         try {
