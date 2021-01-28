@@ -23,8 +23,8 @@ class GUI_Sort extends JFrame {
     private GSort graphics;
 
     private JPanel settings;
-    private JPanel control;
-    private JPanel visualisation;
+    //private JPanel control;
+    private static JPanel visualisation;
 
     private static JTextField sizeArray;
     private static JButton btnStartStop;
@@ -49,37 +49,8 @@ class GUI_Sort extends JFrame {
         this.pack();
     }
 
-    private void createScreen() {
-        setResizable(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-
-        //set settings
-        settings = new JPanel(new BorderLayout());
-        settings.setBackground(Color.gray);
-        settings.setPreferredSize(new Dimension(SETTINGS_WIDTH, SCREEN_HEIGHT));
-
-        //set control
-        control = new JPanel();
-        control.setBackground(Color.LIGHT_GRAY);
-        control.setPreferredSize(new Dimension(SCREEN_WIDTH - SETTINGS_WIDTH, CONTROL_HEIGHT));
-
-        //set visualisation
-        visualisation = new JPanel();
-        visualisation.setBackground(Color.BLACK);
-        visualisation.setPreferredSize(new Dimension(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT));
-
-
-        JPanel screen = new JPanel(new BorderLayout());
-        JPanel rightScreen = new JPanel(new BorderLayout());
-        rightScreen.add(visualisation, BorderLayout.CENTER);
-        rightScreen.add(control, BorderLayout.SOUTH);
-
-        screen.add(settings, BorderLayout.WEST);
-        screen.add(rightScreen, BorderLayout.CENTER);
-        this.add(screen);
-        this.setVisible(true);
+    public static int getViualiserHight() {
+        return GUI_Sort.visualisation.getHeight();
     }
 
     public static int getNumFromTextField() {
@@ -96,17 +67,8 @@ class GUI_Sort extends JFrame {
         return a;
     }
 
-    private void makeVisuals() {
-        Algorithmus.fillEmpty();
-
-        graphics = new GSort(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT);
-        visualisation.add(graphics);
-
-        new Thread(() -> {
-            while (true) {
-                graphics.render();
-            }
-        }).start();
+    public static int getViualiserWidth() {
+        return GUI_Sort.visualisation.getWidth();
     }
 
     public static void setBtnStartStopLabel(String label) {
@@ -272,5 +234,54 @@ class GUI_Sort extends JFrame {
         }
 
         Algorithmus.getAlgorithmus(n).sort();
+    }
+
+    private void createScreen() {
+        setResizable(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+
+        //set settings
+        settings = new JPanel(new BorderLayout());
+        settings.setBackground(Color.gray);
+        settings.setPreferredSize(new Dimension(SETTINGS_WIDTH, SCREEN_HEIGHT));
+/*
+        //set control
+        control = new JPanel();
+        control.setBackground(Color.LIGHT_GRAY);
+        control.setPreferredSize(new Dimension(SCREEN_WIDTH - SETTINGS_WIDTH, CONTROL_HEIGHT));
+
+ */
+
+        //set visualisation
+        GUI_Sort.visualisation = new JPanel(new BorderLayout());
+        GUI_Sort.visualisation.setBackground(Color.BLACK);
+        GUI_Sort.visualisation.setPreferredSize(new Dimension(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT));
+
+
+        JPanel screen = new JPanel(new BorderLayout());
+        JPanel rightScreen = new JPanel(new BorderLayout());
+        rightScreen.add(GUI_Sort.visualisation, BorderLayout.CENTER);
+        // rightScreen.add(control, BorderLayout.SOUTH);
+
+        screen.add(settings, BorderLayout.WEST);
+        screen.add(rightScreen, BorderLayout.CENTER);
+        this.add(screen);
+        this.setVisible(true);
+    }
+
+    private void makeVisuals() {
+        Algorithmus.fillEmpty();
+
+        //graphics = new GSort(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT);
+        graphics = new GSort();
+        GUI_Sort.visualisation.add(graphics, BorderLayout.CENTER);
+
+        new Thread(() -> {
+            while (true) {
+                graphics.render();
+            }
+        }).start();
     }
 }

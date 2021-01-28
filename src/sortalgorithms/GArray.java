@@ -5,16 +5,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GArray {
+
+	private final int ABSTAND_RAND = 20;
+	private int CURRENT_WIDTH;
+	private int CURRENT_HEIGHT;
+
 	public void render(Graphics g) throws InterruptedException {
-		g.clearRect(0, 0, GSort.width, GSort.height);
+		CURRENT_WIDTH = GUI_Sort.getViualiserWidth();
+		CURRENT_HEIGHT = GUI_Sort.getViualiserHight();
 
-		g.setColor(Color.blue);
+		g.clearRect(0, 0, CURRENT_WIDTH, CURRENT_HEIGHT);
 
-		float num1 = (float) GSort.height - 300;
-		float num2 = (float) Algorithmus.daten.length / 3;
+		g.setColor(Color.WHITE);
+
+		float num1 = (float) CURRENT_HEIGHT - 10;
+		float num2 = (float) Algorithmus.daten.length;
 		double scale = num1 / num2;
 
-		int width = GSort.width / ((Algorithmus.daten.length) + 1);
+		float width = (CURRENT_WIDTH - 2 * ABSTAND_RAND) / ((Algorithmus.daten.length));
 
 		Map<Integer, Color> colorMap = new HashMap<>();
 
@@ -32,11 +40,11 @@ public class GArray {
 				// for threadsafety
 			}
 		}
-
+		System.out.println("Width: " + CURRENT_WIDTH + "Height :" + CURRENT_HEIGHT);
 		for (int i = 0; i < Algorithmus.daten.length; i++) {
 			g.setColor(colorMap.getOrDefault(i, Color.blue));
 
-			g.fillRect(20 + i * width, GSort.height - 100, width, (int) Math.round((-Algorithmus.daten[i] * scale) - 10));
+			g.fillRect(ABSTAND_RAND + Math.round(i * width), CURRENT_HEIGHT, Math.round(width), (int) Math.round((-Algorithmus.daten[i] * scale) - 10));
 		}
 	}
 }

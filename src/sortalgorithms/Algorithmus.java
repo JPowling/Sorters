@@ -12,8 +12,9 @@ public abstract class Algorithmus {
 
     private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
 
-    private static int delay = 50;
+    private static int delay = 20;
     public static int[] daten = new int[1];
+    private static int maxDatenVal;
 
     protected static final List<Integer> comparedElements = new ArrayList<>();
     protected static final List<Integer> swappedElements = new ArrayList<>();
@@ -32,6 +33,7 @@ public abstract class Algorithmus {
     }
 
     public static void fillDaten(int max) {
+        maxDatenVal = max;
         daten = new int[max];
         boolean[] used = new boolean[max];
 
