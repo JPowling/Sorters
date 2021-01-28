@@ -14,6 +14,9 @@ class GUI_Sort extends JFrame {
     private final int CONTROL_HEIGHT = 150;
     public static final int DEFAULT_ARRAY_SIZE = 100;
 
+    private static final String DEFAULT_ANZSWAPLABEL_Text = "tausche: ";
+    private static final String DEFAULT_ANZCOMPARELABEL_Text = "vergleiche: ";
+
     private final GridBagLayout gbl = new GridBagLayout();
     private final GridBagConstraints gbc = new GridBagConstraints();
 
@@ -29,6 +32,10 @@ class GUI_Sort extends JFrame {
     private JButton btnFillArray;
     private JComboBox<String> algoBox;
     private boolean arrayFilled;
+    private static JLabel anzSwapLabel;
+    private static JLabel anzCompareLabel;
+    private JTextArea console;
+    private JSlider delaySlider;
 
 
     public GUI_Sort() {
@@ -75,7 +82,7 @@ class GUI_Sort extends JFrame {
         this.setVisible(true);
     }
 
-    public static int getSizeFromTextField() {
+    public static int getNumFromTextField() {
         int a;
 
         try {
@@ -107,14 +114,29 @@ class GUI_Sort extends JFrame {
         GUI_Sort.btnStartStop.setText(GUI_Sort.btnStartStopLabel);
     }
 
+    public static void setAnzSwapLabel(String label) {
+        anzSwapLabel.setText(DEFAULT_ANZSWAPLABEL_Text + label);
+    }
+
+    public static void setAnzCompareLabel(String label) {
+        anzCompareLabel.setText(DEFAULT_ANZCOMPARELABEL_Text + label);
+    }
+
+    public static void resetAnzLabels() {
+        anzSwapLabel.setText(DEFAULT_ANZSWAPLABEL_Text);
+        anzCompareLabel.setText(DEFAULT_ANZCOMPARELABEL_Text);
+    }
+
     private void setupScreen() {
         JPanel top = new JPanel(gbl);
+        JPanel mid = new JPanel(gbl);
+        JPanel bottom = new JPanel(gbl);
         sizeArray = new JTextField("enter arraysize", 1);
         sizeArray.setPreferredSize(new Dimension(100, 20));
 
         //Array eingabe Textfield
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(15, 10, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 4;
@@ -126,6 +148,7 @@ class GUI_Sort extends JFrame {
         //Button Start/Stop
         GUI_Sort.btnStartStopLabel = "Start";
         btnStartStop = new JButton(btnStartStopLabel);
+        gbc.insets = new Insets(15, 10, 5, 10);
         gbc.gridx = 6;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
@@ -136,6 +159,7 @@ class GUI_Sort extends JFrame {
 
         //Button fillArray
         btnFillArray = new JButton("fill Array");
+        gbc.insets = new Insets(15, 10, 5, 10);
         gbc.gridx = 6;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -151,6 +175,7 @@ class GUI_Sort extends JFrame {
             list[i] = Algorithmus.getAlgorithmus(i).getName();
         }
         algoBox = new JComboBox<>(list);
+        gbc.insets = new Insets(15, 10, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 4;
@@ -159,7 +184,54 @@ class GUI_Sort extends JFrame {
         gbl.setConstraints(algoBox, gbc);
         top.add(algoBox);
 
+        //Label anzSwapLabel
+        anzSwapLabel = new JLabel(DEFAULT_ANZSWAPLABEL_Text);
+        gbc.insets = new Insets(15, 10, 0, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        gbc.gridheight = 1;
+        gbc.weightx = 1;
+        gbl.setConstraints(anzSwapLabel, gbc);
+        mid.add(anzSwapLabel);
+
+        //Label anzCompareLabel
+        anzCompareLabel = new JLabel(DEFAULT_ANZCOMPARELABEL_Text);
+        gbc.insets = new Insets(0, 10, 0, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 3;
+        gbc.gridheight = 1;
+        gbc.weightx = 1;
+        gbl.setConstraints(anzCompareLabel, gbc);
+        mid.add(anzCompareLabel);
+
+        //TextField Console
+        console = new JTextArea("This is the Console", 10, 1);
+        gbc.insets = new Insets(5, 10, 15, 10);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 6;
+        gbc.gridheight = 15;
+        gbc.weightx = 1;
+        gbl.setConstraints(console, gbc);
+        mid.add(console);
+
+        //Slider delaySlide
+        delaySlider = new JSlider();
+        gbc.insets = new Insets(15, 10, 35, 10);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        gbc.gridheight = 1;
+        gbc.weightx = 1;
+        gbl.setConstraints(delaySlider, gbc);
+        bottom.add(delaySlider);
+
+
         settings.add(top, BorderLayout.NORTH);
+        settings.add(mid, BorderLayout.CENTER);
+        settings.add(bottom, BorderLayout.SOUTH);
         settings.setVisible(true);
     }
 
@@ -175,7 +247,7 @@ class GUI_Sort extends JFrame {
 
         //Button fill Array
         btnFillArray.addActionListener(e -> {
-            Algorithmus.fillDaten(getSizeFromTextField());
+            Algorithmus.fillDaten(getNumFromTextField());
             arrayFilled = true;
         });
 
@@ -196,7 +268,7 @@ class GUI_Sort extends JFrame {
     private void sort(int n) {
         System.out.println(Algorithmus.checkSort());
         if (!arrayFilled || Algorithmus.checkSort()) {
-            Algorithmus.fillDaten(getSizeFromTextField());
+            Algorithmus.fillDaten(getNumFromTextField());
         }
 
         Algorithmus.getAlgorithmus(n).sort();
