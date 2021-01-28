@@ -31,13 +31,6 @@ public abstract class Algorithmus {
         addAlgorithmus(this);
     }
 
-    public static void startSortThread() {
-        running = true;
-        GUI_Sort.setBtnStartStopLabel("Stop");
-        sortThread.start();
-
-    }
-
     public static void fillDaten(int max) {
         daten = new int[max];
         boolean[] used = new boolean[max];
@@ -128,9 +121,19 @@ public abstract class Algorithmus {
         algoList.add(algo);
     }
 
+    public static void startSortThread() {
+        running = true;
+        GUI_Sort.setBtnStartStopLabel("Stop");
+        GUI_Sort.resetAnzLabels();
+        sortThread.start();
+
+    }
+
     public static void stopSortThread() {
         clearHighlights();
 
+        GUI_Sort.setAnzSwapLabel(Integer.toString(numTausch));
+        GUI_Sort.setAnzCompareLabel(Integer.toString(numVergl));
 
         System.out.println("stopped sortThread");
 
