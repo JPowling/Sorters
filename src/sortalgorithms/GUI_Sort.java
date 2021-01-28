@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Hashtable;
 
 class GUI_Sort extends JFrame {
 
@@ -226,6 +227,27 @@ class GUI_Sort extends JFrame {
         gbc.gridheight = 1;
         gbc.weightx = 1;
         gbl.setConstraints(delaySlider, gbc);
+
+        delaySlider.setMaximum(1000);
+        delaySlider.setMinimum(0);
+        delaySlider.setPaintLabels(true);
+        delaySlider.setPaintTicks(true);
+
+        delaySlider.setMajorTickSpacing(100);
+        delaySlider.setMinorTickSpacing(50);
+
+        delaySlider.setValue(500);
+        Algorithmus.delay = 1000 - delaySlider.getValue();
+
+        Hashtable<Integer, JLabel> delaySliderLabels = new Hashtable<>();
+        delaySliderLabels.put(1000, new JLabel("Fast"));
+        delaySliderLabels.put(0, new JLabel("Slow"));
+        delaySlider.setLabelTable(delaySliderLabels);
+
+        delaySlider.addChangeListener(changeEvent -> {
+            Algorithmus.delay = 1000 - delaySlider.getValue();
+        });
+
         bottom.add(delaySlider);
 
 

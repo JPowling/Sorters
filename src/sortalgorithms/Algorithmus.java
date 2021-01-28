@@ -8,72 +8,66 @@ import java.util.Random;
 
 public abstract class Algorithmus {
 
-    private static final Random rnd = new Random();
+	protected static final List<Integer> comparedElements = new ArrayList<>();
+	protected static final List<Integer> swappedElements = new ArrayList<>();
+	private static final Random rnd = new Random();
+	private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
+	public static int delay = 50;
+	public static int[] daten = new int[1];
+	public static Thread sortThread;
+	private static int numTausch;
+	private static int numVergl;
+	private static boolean running;
+	private String name;
 
-    private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
+	public Algorithmus() {
+		name = this.getClass().getSimpleName();
+		addAlgorithmus(this);
+	}
 
-    private static int delay = 50;
-    public static int[] daten = new int[1];
+	public static void fillDaten(int max) {
+		daten = new int[max];
+		boolean[] used = new boolean[max];
 
-    protected static final List<Integer> comparedElements = new ArrayList<>();
-    protected static final List<Integer> swappedElements = new ArrayList<>();
+		for (int i = 0; i < max; i++) {
+			used[i] = false;
+		}
+		for (int i = 0; i < max; i++) {
+			while (true) {
+				int a = rnd.nextInt(max);
 
-    private static int numTausch;
-    private static int numVergl;
+				if (!used[a]) {
+					used[a] = true;
+					daten[i] = a;
+					break;
+				}
+			}
+		}
+	}
 
-    private String name;
+	public static void fillEmpty() {
+		daten = new int[GUI_Sort.DEFAULT_ARRAY_SIZE];
 
-    public static Thread sortThread;
-    private static boolean running;
+		for (int i = 0; i < GUI_Sort.DEFAULT_ARRAY_SIZE; i++) {
+			daten[i] = 0;
+		}
+	}
 
-    public Algorithmus() {
-        name = this.getClass().getSimpleName();
-        addAlgorithmus(this);
-    }
+	public static Algorithmus getAlgorithmus(int a) {
+		return algoList.get(a);
+	}
 
-    public static void fillDaten(int max) {
-        daten = new int[max];
-        boolean[] used = new boolean[max];
+	public static int getAlgoSize() {
+		return algoList.size();
+	}
 
-        for (int i = 0; i < max; i++) {
-            used[i] = false;
-        }
-        for (int i = 0; i < max; i++) {
-            while (true) {
-                int a = rnd.nextInt(max);
+	public static List<Integer> getComparedElements() {
+		return comparedElements;
+	}
 
-                if (!used[a]) {
-                    used[a] = true;
-                    daten[i] = a;
-                    break;
-                }
-            }
-        }
-    }
-
-    public static void fillEmpty() {
-        daten = new int[GUI_Sort.DEFAULT_ARRAY_SIZE];
-
-        for (int i = 0; i < GUI_Sort.DEFAULT_ARRAY_SIZE; i++) {
-            daten[i] = 0;
-        }
-    }
-
-    public static Algorithmus getAlgorithmus(int a) {
-        return algoList.get(a);
-    }
-
-    public static int getAlgoSize() {
-        return algoList.size();
-    }
-
-    public static List<Integer> getComparedElements() {
-        return comparedElements;
-    }
-
-    public static List<Integer> getSwappedElements() {
-        return swappedElements;
-    }
+	public static List<Integer> getSwappedElements() {
+		return swappedElements;
+	}
 
 /*      es gibt noch ne swap() methode, mit delay, hab mich für die entschieden
     public void swap(int i1, int i2) {
@@ -90,136 +84,147 @@ public abstract class Algorithmus {
 
  */
 
-    /**
-     * @param i1 first Index
-     * @param i2 second Index
-     * @return true wenn i1 größer als i2
-     */
-    public boolean compare(int i1, int i2) {
-        comparedElements.clear();
-        comparedElements.add(i1);
-        comparedElements.add(i2);
+	public static boolean checkSort() {
+		for (int i = 0; i < daten.length - 1; i++) {
+			if (daten[i] > daten[i + 1]) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-        numVergl++;
-        return daten[i1] > daten[i2];
-    }
+	public static boolean isRunning() {
+		return Algorithmus.running;
+	}
 
-    public static boolean checkSort() {
-        for (int i = 0; i < daten.length - 1; i++) {
-            if (daten[i] > daten[i + 1]) {
-                return false;
+	public static void startSortThread() {
+		running = true;
+		GUI_Sort.setBtnStartStopLabel("Stop");
+		GUI_Sort.resetAnzLabels();
+		sortThread.start();
+
+	}
+
+	public static void stopSortThread() {
+		clearHighlights();
+
+		GUI_Sort.setAnzSwapLabel(Integer.toString(numTausch));
+		GUI_Sort.setAnzCompareLabel(Integer.toString(numVergl));
+
+		System.out.println("stopped sortThread");
+
+		running = false;
+		GUI_Sort.setBtnStartStopLabel("Start");
+		sortThread.stop();
+	}
+
+	private static void clearHighlights() {
+		swappedElements.clear();
+		comparedElements.clear();
+	}
+
+	/**
+	 * @param i1 first Index
+	 * @param i2 second Index
+	 * @return true wenn i1 größer als i2
+	 */
+	public boolean compare(int i1, int i2) {
+		comparedElements.clear();
+		comparedElements.add(i1);
+		comparedElements.add(i2);
+
+		numVergl++;
+		return daten[i1] > daten[i2];
+	}
+
+	public void addAlgorithmus(Algorithmus algo) {
+		algoList.add(algo);
+	}
+
+	protected abstract void internalSort();
+
+	public void sort() {
+		clearHighlights();
+
+		System.out.println("Sorting with " + name + "...");
+
+		sortThread = new Thread(() -> {
+			internalSort();
+			Algorithmus.stopSortThread();
+			System.out.println("Sorted");
+		});
+		Algorithmus.startSortThread();
+	}
+
+	public void swap(int i1, int i2) {
+		swappedElements.clear();
+		swappedElements.add(i1);
+		swappedElements.add(i2);
+
+		int zS = daten[i1];
+		daten[i1] = daten[i2];
+		daten[i2] = zS;
+
+		numTausch++;
+
+		sleep(delay);
+	}
+
+	@SuppressWarnings("StatementWithEmptyBody")
+	private void sleep(long time) {
+		if (time > 301) {
+            long now = System.currentTimeMillis();
+            while (System.currentTimeMillis() - now < (time - 300) / 2 + 100) {
+                // do nothing
+            }
+        } else {
+            long now = System.nanoTime();
+            long calc = (time + 50) * 100_000;
+            System.out.println(calc);
+
+            while (System.nanoTime() - now < calc) {
+                // do nothing
             }
         }
-        return true;
-    }
+	}
 
-    public static boolean isRunning() {
-        return Algorithmus.running;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void addAlgorithmus(Algorithmus algo) {
-        algoList.add(algo);
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public static void startSortThread() {
-        running = true;
-        GUI_Sort.setBtnStartStopLabel("Stop");
-        GUI_Sort.resetAnzLabels();
-        sortThread.start();
+	public void resetNumTausch() {
+		numTausch = 0;
+	}
 
-    }
+	public int getNumTausch() {
+		return numTausch;
+	}
 
-    public static void stopSortThread() {
-        clearHighlights();
+	public void incTausch() { //useless?
+		numTausch++;
+	}
 
-        GUI_Sort.setAnzSwapLabel(Integer.toString(numTausch));
-        GUI_Sort.setAnzCompareLabel(Integer.toString(numVergl));
+	public void resetNumVergl() {
+		numVergl = 0;
+	}
 
-        System.out.println("stopped sortThread");
+	public void incVergl() { //useless?
+		numVergl++;
+	}
 
-        running = false;
-        GUI_Sort.setBtnStartStopLabel("Start");
-        sortThread.stop();
-    }
+	public int getNumVergl() {
+		return numVergl;
+	}
 
-    private static void clearHighlights() {
-        swappedElements.clear();
-        comparedElements.clear();
-    }
+	public int getDelay() {
+		return delay;
+	}
 
-    protected abstract void internalSort();
-
-    public void sort() {
-        clearHighlights();
-
-        System.out.println("Sorting with " + name + "...");
-
-        sortThread = new Thread(() -> {
-            internalSort();
-            Algorithmus.stopSortThread();
-            System.out.println("Sorted");
-        });
-        Algorithmus.startSortThread();
-    }
-
-    public void swap(int i1, int i2) {
-        swappedElements.clear();
-        swappedElements.add(i1);
-        swappedElements.add(i2);
-
-        int zS = daten[i1];
-        daten[i1] = daten[i2];
-        daten[i2] = zS;
-
-        numTausch++;
-
-        if (delay == 0)
-            return;
-
-        try {
-            Thread.sleep(delay);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void resetNumTausch() {
-        numTausch = 0;
-    }
-
-    public int getNumTausch() {
-        return numTausch;
-    }
-
-    public void incTausch() { //useless?
-        numTausch++;
-    }
-
-    public void resetNumVergl() {
-        numVergl = 0;
-    }
-
-    public void incVergl() { //useless?
-        numVergl++;
-    }
-
-    public int getNumVergl() {
-        return numVergl;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        Algorithmus.delay = delay;
-    }
+	public void setDelay(int delay) {
+		Algorithmus.delay = delay;
+	}
 }
