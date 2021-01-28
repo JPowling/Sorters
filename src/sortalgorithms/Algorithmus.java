@@ -19,8 +19,8 @@ public abstract class Algorithmus {
     protected static final List<Integer> comparedElements = new ArrayList<>();
     protected static final List<Integer> swappedElements = new ArrayList<>();
 
-    private static int numTausch;
-    private static int numVergl;
+    private static long numTausch;
+    private static long numVergl;
 
     private String name;
 
@@ -112,17 +112,17 @@ public abstract class Algorithmus {
 	}
 
 	public static void stopSortThread() {
-		GUI_Sort.setAnzSwapLabel(Integer.toString(numTausch));
-		GUI_Sort.setAnzCompareLabel(Integer.toString(numVergl));
+        GUI_Sort.setAnzSwapLabel(Long.toString(numTausch));
+        GUI_Sort.setAnzCompareLabel(Long.toString(numVergl));
 
-		System.out.println("stopped sortThread");
+        System.out.println("stopped sortThread");
 
-		running = false;
-		GUI_Sort.setBtnStartStopLabel("Start");
-		sortThread.stop();
+        running = false;
+        GUI_Sort.setBtnStartStopLabel("Start");
+        sortThread.stop();
 
-		clearHighlights();
-	}
+        clearHighlights();
+    }
 
 	private static void clearHighlights() {
 		swappedElements.clear();
@@ -187,41 +187,41 @@ public abstract class Algorithmus {
 
 	public String getName() {
 		return name;
-	}
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void resetNumTausch() {
-		numTausch = 0;
-	}
+    public void resetNumTausch() {
+        numTausch = 0;
+    }
 
-	public int getNumTausch() {
-		return numTausch;
-	}
+    public long getNumTausch() {
+        return numTausch;
+    }
 
-	public void incTausch() { //useless?
-		numTausch++;
-	}
+    public void incTausch() { //useless?
+        numTausch++;
+    }
 
-	public void resetNumVergl() {
-		numVergl = 0;
-	}
+    public void resetNumVergl() {
+        numVergl = 0;
+    }
 
-	public void incVergl() { //useless?
-		numVergl++;
-	}
+    public void incVergl() { //useless?
+        numVergl++;
+    }
 
-	public int getNumVergl() {
-		return numVergl;
-	}
+    public long getNumVergl() {
+        return numVergl;
+    }
 
-	public long getDelay() {
-		return delay;
-	}
+    public long getDelay() {
+        return delay;
+    }
 
-	public void setDelay(int delay) {
-		Algorithmus.delay = delay;
-	}
+    public void setDelay(int delay) {
+        Algorithmus.delay = delay;
+    }
 }
