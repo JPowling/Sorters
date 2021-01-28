@@ -77,21 +77,6 @@ public abstract class Algorithmus {
         return swappedElements;
     }
 
-/*      es gibt noch ne swap() methode, mit delay, hab mich für die entschieden
-    public void swap(int i1, int i2) {
-        swappedElements.clear();
-        swappedElements.add(i1);
-        swappedElements.add(i2);
-
-        int zS = daten[i1];
-        daten[i1] = daten[i2];
-        daten[i2] = zS;
-
-        numTausch++;
-    }
-
- */
-
     /**
      * @param i1 first Index
      * @param i2 second Index
