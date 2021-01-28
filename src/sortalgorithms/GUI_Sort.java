@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Hashtable;
 
 class GUI_Sort extends JFrame {
 
@@ -36,6 +37,7 @@ class GUI_Sort extends JFrame {
     private static JLabel anzCompareLabel;
     private JTextArea console;
     private JSlider delaySlider;
+    private JCheckBox noDelayBox;
 
 
     public GUI_Sort() {
@@ -99,13 +101,6 @@ class GUI_Sort extends JFrame {
         settings = new JPanel(new BorderLayout());
         settings.setBackground(Color.gray);
         settings.setPreferredSize(new Dimension(SETTINGS_WIDTH, SCREEN_HEIGHT));
-/*
-        //set control
-        control = new JPanel();
-        control.setBackground(Color.LIGHT_GRAY);
-        control.setPreferredSize(new Dimension(SCREEN_WIDTH - SETTINGS_WIDTH, CONTROL_HEIGHT));
-
- */
 
         //set visualisation
         GUI_Sort.visualisation = new JPanel(new BorderLayout());
@@ -116,7 +111,6 @@ class GUI_Sort extends JFrame {
         JPanel screen = new JPanel(new BorderLayout());
         JPanel rightScreen = new JPanel(new BorderLayout());
         rightScreen.add(GUI_Sort.visualisation, BorderLayout.CENTER);
-        // rightScreen.add(control, BorderLayout.SOUTH);
 
         screen.add(settings, BorderLayout.WEST);
         screen.add(rightScreen, BorderLayout.CENTER);
@@ -127,7 +121,6 @@ class GUI_Sort extends JFrame {
     private void makeVisuals() {
         Algorithmus.fillEmpty();
 
-        //graphics = new GSort(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT);
         graphics = new GSort();
         GUI_Sort.visualisation.add(graphics, BorderLayout.CENTER);
 
@@ -230,14 +223,56 @@ class GUI_Sort extends JFrame {
 
         //Slider delaySlide
         delaySlider = new JSlider();
-        gbc.insets = new Insets(15, 10, 35, 10);
+        gbc.insets = new Insets(15, 10, 5, 10);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 3;
         gbc.gridheight = 1;
         gbc.weightx = 1;
         gbl.setConstraints(delaySlider, gbc);
+
+        delaySlider.setMaximum(1000);
+        delaySlider.setMinimum(0);
+        delaySlider.setPaintLabels(true);
+        delaySlider.setPaintTicks(true);
+
+        delaySlider.setMajorTickSpacing(100);
+        delaySlider.setMinorTickSpacing(50);
+
+        delaySlider.setValue(500);
+        Algorithmus.delay = 1000 - delaySlider.getValue();
+
+        Hashtable<Integer, JLabel> delaySliderLabels = new Hashtable<>();
+        delaySliderLabels.put(1000, new JLabel("Fast"));
+        delaySliderLabels.put(0, new JLabel("Slow"));
+        delaySlider.setLabelTable(delaySliderLabels);
+
+        delaySlider.addChangeListener(changeEvent -> {
+            Algorithmus.delay = 1000 - delaySlider.getValue();
+            if (noDelayBox.isSelected())
+                noDelayBox.setSelected(false);
+        });
+
         bottom.add(delaySlider);
+
+        noDelayBox = new JCheckBox("No delay");
+        gbc.insets = new Insets(0, 20, 0, 0);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 1;
+        gbl.setConstraints(noDelayBox, gbc);
+
+        noDelayBox.addChangeListener(changeEvent -> {
+            if (noDelayBox.isSelected()) {
+                Algorithmus.delay = -1;
+            } else {
+                Algorithmus.delay = 1000 - delaySlider.getValue();
+            }
+        });
+
+        bottom.add(noDelayBox);
 
 
         settings.add(top, BorderLayout.NORTH);

@@ -37,45 +37,45 @@ public abstract class Algorithmus {
         daten = new int[max];
         boolean[] used = new boolean[max];
 
-        for (int i = 0; i < max; i++) {
-            used[i] = false;
-        }
-        for (int i = 0; i < max; i++) {
-            while (true) {
-                int a = rnd.nextInt(max);
+		for (int i = 0; i < max; i++) {
+			used[i] = false;
+		}
+		for (int i = 0; i < max; i++) {
+			while (true) {
+				int a = rnd.nextInt(max);
 
-                if (!used[a]) {
-                    used[a] = true;
-                    daten[i] = a;
-                    break;
-                }
-            }
-        }
-    }
+				if (!used[a]) {
+					used[a] = true;
+					daten[i] = a;
+					break;
+				}
+			}
+		}
+	}
 
-    public static void fillEmpty() {
-        daten = new int[GUI_Sort.DEFAULT_ARRAY_SIZE];
+	public static void fillEmpty() {
+		daten = new int[GUI_Sort.DEFAULT_ARRAY_SIZE];
 
-        for (int i = 0; i < GUI_Sort.DEFAULT_ARRAY_SIZE; i++) {
-            daten[i] = 0;
-        }
-    }
+		for (int i = 0; i < GUI_Sort.DEFAULT_ARRAY_SIZE; i++) {
+			daten[i] = 0;
+		}
+	}
 
-    public static Algorithmus getAlgorithmus(int a) {
-        return algoList.get(a);
-    }
+	public static Algorithmus getAlgorithmus(int a) {
+		return algoList.get(a);
+	}
 
-    public static int getAlgoSize() {
-        return algoList.size();
-    }
+	public static int getAlgoSize() {
+		return algoList.size();
+	}
 
-    public static List<Integer> getComparedElements() {
-        return comparedElements;
-    }
+	public static List<Integer> getComparedElements() {
+		return comparedElements;
+	}
 
-    public static List<Integer> getSwappedElements() {
-        return swappedElements;
-    }
+	public static List<Integer> getSwappedElements() {
+		return swappedElements;
+	}
 
     /**
      * @param i1 first Index
@@ -100,113 +100,128 @@ public abstract class Algorithmus {
         return true;
     }
 
-    public static boolean isRunning() {
-        return Algorithmus.running;
-    }
+	public static boolean isRunning() {
+		return Algorithmus.running;
+	}
 
-    public void addAlgorithmus(Algorithmus algo) {
-        algoList.add(algo);
-    }
+	public static void startSortThread() {
+		running = true;
+		GUI_Sort.setBtnStartStopLabel("Stop");
+		GUI_Sort.resetAnzLabels();
+		sortThread.start();
+	}
 
-    public static void startSortThread() {
-        running = true;
-        GUI_Sort.setBtnStartStopLabel("Stop");
-        GUI_Sort.resetAnzLabels();
-        sortThread.start();
+	public static void stopSortThread() {
+		GUI_Sort.setAnzSwapLabel(Integer.toString(numTausch));
+		GUI_Sort.setAnzCompareLabel(Integer.toString(numVergl));
 
-    }
+		System.out.println("stopped sortThread");
 
-    public static void stopSortThread() {
-        clearHighlights();
+		running = false;
+		GUI_Sort.setBtnStartStopLabel("Start");
+		sortThread.stop();
 
-        GUI_Sort.setAnzSwapLabel(Integer.toString(numTausch));
-        GUI_Sort.setAnzCompareLabel(Integer.toString(numVergl));
+		clearHighlights();
+	}
 
-        System.out.println("stopped sortThread");
+	private static void clearHighlights() {
+		swappedElements.clear();
+		comparedElements.clear();
+	}
 
-        running = false;
-        GUI_Sort.setBtnStartStopLabel("Start");
-        sortThread.stop();
-    }
+	public void addAlgorithmus(Algorithmus algo) {
+		algoList.add(algo);
+	}
 
-    private static void clearHighlights() {
-        swappedElements.clear();
-        comparedElements.clear();
-    }
+	protected abstract void internalSort();
 
-    protected abstract void internalSort();
+	public void sort() {
+		clearHighlights();
 
-    public void sort() {
-        clearHighlights();
+		System.out.println("Sorting with " + name + "...");
 
-        System.out.println("Sorting with " + name + "...");
+		sortThread = new Thread(() -> {
+			internalSort();
+			Algorithmus.stopSortThread();
+			clearHighlights();
+			System.out.println("Sorted");
+		});
+		Algorithmus.startSortThread();
+	}
 
-        sortThread = new Thread(() -> {
-            internalSort();
-            Algorithmus.stopSortThread();
-            System.out.println("Sorted");
-        });
-        Algorithmus.startSortThread();
-    }
+	public void swap(int i1, int i2) {
+		swappedElements.clear();
+		swappedElements.add(i1);
+		swappedElements.add(i2);
 
-    public void swap(int i1, int i2) {
-        swappedElements.clear();
-        swappedElements.add(i1);
-        swappedElements.add(i2);
+		int zS = daten[i1];
+		daten[i1] = daten[i2];
+		daten[i2] = zS;
 
-        int zS = daten[i1];
-        daten[i1] = daten[i2];
-        daten[i2] = zS;
+		numTausch++;
 
-        numTausch++;
+		sleep();
+	}
 
-        if (delay == 0)
-            return;
+	@SuppressWarnings("StatementWithEmptyBody")
+	private void sleep() {
+		if(delay < 0) {
+			return;
+		}
 
-        try {
-            Thread.sleep(delay);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+		if (delay > 301) {
+            long now = System.currentTimeMillis();
+            while (System.currentTimeMillis() - now < delay / 2 - 50) {
+                // do nothing
+            }
+        } else {
+            long now = System.nanoTime();
+            long calc = delay * 320_000 + 5000000;
+            System.out.println(calc);
+
+            while (System.nanoTime() - now < calc) {
+                // do nothing
+            }
         }
-    }
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void resetNumTausch() {
-        numTausch = 0;
-    }
+	public void resetNumTausch() {
+		numTausch = 0;
+	}
 
-    public int getNumTausch() {
-        return numTausch;
-    }
+	public int getNumTausch() {
+		return numTausch;
+	}
 
-    public void incTausch() { //useless?
-        numTausch++;
-    }
+	public void incTausch() { //useless?
+		numTausch++;
+	}
 
-    public void resetNumVergl() {
-        numVergl = 0;
-    }
+	public void resetNumVergl() {
+		numVergl = 0;
+	}
 
-    public void incVergl() { //useless?
-        numVergl++;
-    }
+	public void incVergl() { //useless?
+		numVergl++;
+	}
 
-    public int getNumVergl() {
-        return numVergl;
-    }
+	public int getNumVergl() {
+		return numVergl;
+	}
 
-    public int getDelay() {
-        return delay;
-    }
+	public long getDelay() {
+		return delay;
+	}
 
-    public void setDelay(int delay) {
-        Algorithmus.delay = delay;
-    }
+	public void setDelay(int delay) {
+		Algorithmus.delay = delay;
+	}
 }
