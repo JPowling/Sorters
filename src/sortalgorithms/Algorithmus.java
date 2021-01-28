@@ -8,26 +8,34 @@ import java.util.Random;
 
 public abstract class Algorithmus {
 
-	protected static final List<Integer> comparedElements = new ArrayList<>();
-	protected static final List<Integer> swappedElements = new ArrayList<>();
-	private static final Random rnd = new Random();
-	private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
-	public static long delay = 50;
-	public static int[] daten = new int[1];
-	public static Thread sortThread;
-	private static int numTausch;
-	private static int numVergl;
-	private static boolean running;
-	private String name;
+    private static final Random rnd = new Random();
 
-	public Algorithmus() {
-		name = this.getClass().getSimpleName();
-		addAlgorithmus(this);
-	}
+    private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
 
-	public static void fillDaten(int max) {
-		daten = new int[max];
-		boolean[] used = new boolean[max];
+    public static int delay = 20;
+    public static int[] daten = new int[1];
+    private static int maxDatenVal;
+
+    protected static final List<Integer> comparedElements = new ArrayList<>();
+    protected static final List<Integer> swappedElements = new ArrayList<>();
+
+    private static int numTausch;
+    private static int numVergl;
+
+    private String name;
+
+    public static Thread sortThread;
+    private static boolean running;
+
+    public Algorithmus() {
+        name = this.getClass().getSimpleName();
+        addAlgorithmus(this);
+    }
+
+    public static void fillDaten(int max) {
+        maxDatenVal = max;
+        daten = new int[max];
+        boolean[] used = new boolean[max];
 
 		for (int i = 0; i < max; i++) {
 			used[i] = false;
@@ -69,29 +77,28 @@ public abstract class Algorithmus {
 		return swappedElements;
 	}
 
-/*      es gibt noch ne swap() methode, mit delay, hab mich für die entschieden
-    public void swap(int i1, int i2) {
-        swappedElements.clear();
-        swappedElements.add(i1);
-        swappedElements.add(i2);
+    /**
+     * @param i1 first Index
+     * @param i2 second Index
+     * @return true wenn i1 größer als i2
+     */
+    public boolean compare(int i1, int i2) {
+        comparedElements.clear();
+        comparedElements.add(i1);
+        comparedElements.add(i2);
 
-        int zS = daten[i1];
-        daten[i1] = daten[i2];
-        daten[i2] = zS;
-
-        numTausch++;
+        numVergl++;
+        return daten[i1] > daten[i2];
     }
 
- */
-
-	public static boolean checkSort() {
-		for (int i = 0; i < daten.length - 1; i++) {
-			if (daten[i] > daten[i + 1]) {
-				return false;
-			}
-		}
-		return true;
-	}
+    public static boolean checkSort() {
+        for (int i = 0; i < daten.length - 1; i++) {
+            if (daten[i] > daten[i + 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 	public static boolean isRunning() {
 		return Algorithmus.running;
@@ -120,20 +127,6 @@ public abstract class Algorithmus {
 	private static void clearHighlights() {
 		swappedElements.clear();
 		comparedElements.clear();
-	}
-
-	/**
-	 * @param i1 first Index
-	 * @param i2 second Index
-	 * @return true wenn i1 größer als i2
-	 */
-	public boolean compare(int i1, int i2) {
-		comparedElements.clear();
-		comparedElements.add(i1);
-		comparedElements.add(i2);
-
-		numVergl++;
-		return daten[i1] > daten[i2];
 	}
 
 	public void addAlgorithmus(Algorithmus algo) {

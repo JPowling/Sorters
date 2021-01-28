@@ -2,7 +2,6 @@ package sortalgorithms;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.util.Random;
 
 public class GSort extends Canvas {
 
@@ -11,9 +10,9 @@ public class GSort extends Canvas {
 
     private final GArray gArray;
 
-    public GSort(int width, int height) {
-        GSort.width = width;
-        GSort.height = height;
+    public GSort() {
+        GSort.width = GUI_Sort.getViualiserWidth();
+        GSort.height = GUI_Sort.getViualiserHight();
 
         this.gArray = new GArray();
 

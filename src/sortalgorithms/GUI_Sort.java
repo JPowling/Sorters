@@ -8,27 +8,33 @@ import java.util.Hashtable;
 
 class GUI_Sort extends JFrame {
 
+    private final int SCREEN_WIDTH = 1920 / 2;
+    private final int SCREEN_HEIGHT = 1080 / 2;
+
+    private final int SETTINGS_WIDTH = 300;
+    private final int CONTROL_HEIGHT = 150;
     public static final int DEFAULT_ARRAY_SIZE = 100;
+
     private static final String DEFAULT_ANZSWAPLABEL_Text = "tausche: ";
     private static final String DEFAULT_ANZCOMPARELABEL_Text = "vergleiche: ";
+
+    private final GridBagLayout gbl = new GridBagLayout();
+    private final GridBagConstraints gbc = new GridBagConstraints();
+
+    private GSort graphics;
+
+    private JPanel settings;
+    //private JPanel control;
+    private static JPanel visualisation;
+
     private static JTextField sizeArray;
     private static JButton btnStartStop;
     private static String btnStartStopLabel;
-    private static JLabel anzSwapLabel;
-    private static JLabel anzCompareLabel;
-    private final int SCREEN_WIDTH = 1920 / 2;
-    private final int SCREEN_HEIGHT = 1080 / 2;
-    private final int SETTINGS_WIDTH = 300;
-    private final int CONTROL_HEIGHT = 150;
-    private final GridBagLayout gbl = new GridBagLayout();
-    private final GridBagConstraints gbc = new GridBagConstraints();
-    private GSort graphics;
-    private JPanel settings;
-    private JPanel control;
-    private JPanel visualisation;
     private JButton btnFillArray;
     private JComboBox<String> algoBox;
     private boolean arrayFilled;
+    private static JLabel anzSwapLabel;
+    private static JLabel anzCompareLabel;
     private JTextArea console;
     private JSlider delaySlider;
     private JCheckBox noDelayBox;
@@ -57,6 +63,14 @@ class GUI_Sort extends JFrame {
             sizeArray.setText(String.valueOf(DEFAULT_ARRAY_SIZE));
         }
         return a;
+    }
+
+    public static int getViualiserWidth() {
+        return GUI_Sort.visualisation.getWidth();
+    }
+
+    public static int getViualiserHight() {
+        return GUI_Sort.visualisation.getHeight();
     }
 
     public static void setBtnStartStopLabel(String label) {
@@ -88,21 +102,15 @@ class GUI_Sort extends JFrame {
         settings.setBackground(Color.gray);
         settings.setPreferredSize(new Dimension(SETTINGS_WIDTH, SCREEN_HEIGHT));
 
-        //set control
-        control = new JPanel();
-        control.setBackground(Color.LIGHT_GRAY);
-        control.setPreferredSize(new Dimension(SCREEN_WIDTH - SETTINGS_WIDTH, CONTROL_HEIGHT));
-
         //set visualisation
-        visualisation = new JPanel();
-        visualisation.setBackground(Color.BLACK);
-        visualisation.setPreferredSize(new Dimension(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT));
+        GUI_Sort.visualisation = new JPanel(new BorderLayout());
+        GUI_Sort.visualisation.setBackground(Color.BLACK);
+        GUI_Sort.visualisation.setPreferredSize(new Dimension(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT));
 
 
         JPanel screen = new JPanel(new BorderLayout());
         JPanel rightScreen = new JPanel(new BorderLayout());
-        rightScreen.add(visualisation, BorderLayout.CENTER);
-        rightScreen.add(control, BorderLayout.SOUTH);
+        rightScreen.add(GUI_Sort.visualisation, BorderLayout.CENTER);
 
         screen.add(settings, BorderLayout.WEST);
         screen.add(rightScreen, BorderLayout.CENTER);
@@ -113,8 +121,8 @@ class GUI_Sort extends JFrame {
     private void makeVisuals() {
         Algorithmus.fillEmpty();
 
-        graphics = new GSort(SCREEN_WIDTH - SETTINGS_WIDTH, SCREEN_HEIGHT - CONTROL_HEIGHT);
-        visualisation.add(graphics);
+        graphics = new GSort();
+        GUI_Sort.visualisation.add(graphics, BorderLayout.CENTER);
 
         new Thread(() -> {
             while (true) {
