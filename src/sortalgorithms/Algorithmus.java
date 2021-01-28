@@ -12,7 +12,7 @@ public abstract class Algorithmus {
 
     private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
 
-    private static int delay = 20;
+    public static int delay = 20;
     public static int[] daten = new int[1];
     private static int maxDatenVal;
 
