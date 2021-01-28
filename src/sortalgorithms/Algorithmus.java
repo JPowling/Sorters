@@ -12,7 +12,7 @@ public abstract class Algorithmus {
 
     private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
 
-    private static int delay = 10;
+    private static int delay = 50;
     public static int[] daten = new int[1];
 
     protected static final List<Integer> comparedElements = new ArrayList<>();
@@ -29,6 +29,13 @@ public abstract class Algorithmus {
     public Algorithmus() {
         name = this.getClass().getSimpleName();
         addAlgorithmus(this);
+    }
+
+    public static void startSortThread() {
+        running = true;
+        GUI_Sort.setBtnStartStopLabel("Stop");
+        sortThread.start();
+
     }
 
     public static void fillDaten(int max) {
@@ -75,12 +82,6 @@ public abstract class Algorithmus {
         return swappedElements;
     }
 
-    protected abstract void internalSort();
-
-    public static boolean isRunning() {
-        return Algorithmus.running;
-    }
-
 /*      es gibt noch ne swap() methode, mit delay, hab mich für die entschieden
     public void swap(int i1, int i2) {
         swappedElements.clear();
@@ -95,18 +96,6 @@ public abstract class Algorithmus {
     }
 
  */
-    
-  public static void stopSortThread() {
-        clearHighlights();
-
-
-        System.out.println("stopped sortThread");
-
-        running = false;
-        GUI_Sort.setBtnStartStopLabel("Start");
-        sortThread.stop();
-    }
-
 
     /**
      * @param i1 first Index
@@ -121,12 +110,6 @@ public abstract class Algorithmus {
         numVergl++;
         return daten[i1] > daten[i2];
     }
-    public static void startSortThread() {
-        running = true;
-        GUI_Sort.setBtnStartStopLabel("Stop");
-        sortThread.start();
-
-    }
 
     public static boolean checkSort() {
         for (int i = 0; i < daten.length - 1; i++) {
@@ -137,8 +120,64 @@ public abstract class Algorithmus {
         return true;
     }
 
+    public static boolean isRunning() {
+        return Algorithmus.running;
+    }
+
     public void addAlgorithmus(Algorithmus algo) {
         algoList.add(algo);
+    }
+
+    public static void stopSortThread() {
+        clearHighlights();
+
+
+        System.out.println("stopped sortThread");
+
+        running = false;
+        GUI_Sort.setBtnStartStopLabel("Start");
+        sortThread.stop();
+    }
+
+    private static void clearHighlights() {
+        swappedElements.clear();
+        comparedElements.clear();
+    }
+
+    protected abstract void internalSort();
+
+    public void sort() {
+        clearHighlights();
+
+        System.out.println("Sorting with " + name + "...");
+
+        sortThread = new Thread(() -> {
+            internalSort();
+            Algorithmus.stopSortThread();
+            System.out.println("Sorted");
+        });
+        Algorithmus.startSortThread();
+    }
+
+    public void swap(int i1, int i2) {
+        swappedElements.clear();
+        swappedElements.add(i1);
+        swappedElements.add(i2);
+
+        int zS = daten[i1];
+        daten[i1] = daten[i2];
+        daten[i2] = zS;
+
+        numTausch++;
+
+        if (delay == 0)
+            return;
+
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getName() {
@@ -179,53 +218,5 @@ public abstract class Algorithmus {
 
     public void setDelay(int delay) {
         Algorithmus.delay = delay;
-    }
-
-
-    public static void stopSort() {
-        clearHighlights();
-
-        running = false;
-        sortThread.stop();
-        System.out.println("stopped sortThread");
-    }
-   
-    private static void clearHighlights() {
-        swappedElements.clear();
-        comparedElements.clear();
-    }
-
-    public void swap(int i1, int i2) {
-        swappedElements.clear();
-        swappedElements.add(i1);
-        swappedElements.add(i2);
-
-        int zS = daten[i1];
-        daten[i1] = daten[i2];
-        daten[i2] = zS;
-
-        numTausch++;
-
-        if (delay == 0)
-            return;
-
-        try {
-            Thread.sleep(delay);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void sort() {
-        clearHighlights();
-
-        System.out.println("Sorting with " + name + "...");
-
-        sortThread = new Thread(() -> {
-            internalSort();
-            Algorithmus.stopSortThread();
-            System.out.println("Sorted");
-        });
-        Algorithmus.startSortThread();
     }
 }
