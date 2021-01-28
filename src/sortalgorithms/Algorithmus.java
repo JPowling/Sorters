@@ -124,44 +124,54 @@ public abstract class Algorithmus {
         clearHighlights();
     }
 
-	private static void clearHighlights() {
-		swappedElements.clear();
-		comparedElements.clear();
-	}
+    private static void clearHighlights() {
+        swappedElements.clear();
+        comparedElements.clear();
+    }
 
-	public void addAlgorithmus(Algorithmus algo) {
-		algoList.add(algo);
-	}
+    public static void resetNumTausch() {
+        Algorithmus.numTausch = 0;
+    }
 
-	protected abstract void internalSort();
+    public static int getNumTausch() {
+        return Algorithmus.numTausch;
+    }
 
-	public void sort() {
-		clearHighlights();
+    public static void incTausch() { //useless?
+        Algorithmus.numTausch++;
+    }
 
-		System.out.println("Sorting with " + name + "...");
+    public static void resetNumVergl() {
+        Algorithmus.numVergl = 0;
+    }
 
-		sortThread = new Thread(() -> {
-			internalSort();
-			Algorithmus.stopSortThread();
-			clearHighlights();
-			System.out.println("Sorted");
-		});
-		Algorithmus.startSortThread();
-	}
+    public static void incVergl() { //useless?
+        Algorithmus.numVergl++;
+    }
 
-	public void swap(int i1, int i2) {
-		swappedElements.clear();
-		swappedElements.add(i1);
-		swappedElements.add(i2);
+    public static int getNumVergl() {
+        return Algorithmus.numVergl;
+    }
 
-		int zS = daten[i1];
-		daten[i1] = daten[i2];
-		daten[i2] = zS;
+    public void addAlgorithmus(Algorithmus algo) {
+        algoList.add(algo);
+    }
 
-		numTausch++;
+    protected abstract void internalSort();
 
-		sleep();
-	}
+    public void swap(int i1, int i2) {
+        swappedElements.clear();
+        swappedElements.add(i1);
+        swappedElements.add(i2);
+
+        int zS = daten[i1];
+        daten[i1] = daten[i2];
+        daten[i2] = zS;
+
+        numTausch++;
+
+        sleep();
+    }
 
 	@SuppressWarnings("StatementWithEmptyBody")
 	private void sleep() {
@@ -177,44 +187,33 @@ public abstract class Algorithmus {
         } else {
             long now = System.nanoTime();
             long calc = delay * 320_000 + 5000000;
-            System.out.println(calc);
 
             while (System.nanoTime() - now < calc) {
                 // do nothing
             }
         }
-	}
+    }
 
-	public String getName() {
-		return name;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void resetNumTausch() {
-        numTausch = 0;
-    }
+    public void sort() {
+        clearHighlights();
 
-    public long getNumTausch() {
-        return numTausch;
-    }
+        System.out.println("Sorting with " + name + "...");
 
-    public void incTausch() { //useless?
-        numTausch++;
-    }
-
-    public void resetNumVergl() {
-        numVergl = 0;
-    }
-
-    public void incVergl() { //useless?
-        numVergl++;
-    }
-
-    public long getNumVergl() {
-        return numVergl;
+        sortThread = new Thread(() -> {
+            internalSort();
+            clearHighlights();
+            System.out.println("Sorted");
+            Algorithmus.stopSortThread();
+        });
+        Algorithmus.startSortThread();
     }
 
     public long getDelay() {
