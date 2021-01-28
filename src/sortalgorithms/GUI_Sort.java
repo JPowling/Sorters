@@ -287,6 +287,10 @@ class GUI_Sort extends JFrame {
             if (Algorithmus.isRunning()) {
                 Algorithmus.stopSortThread();
             } else {
+                if (Algorithmus.checkSort()) {
+                    Algorithmus.resetNumTausch();
+                    Algorithmus.resetNumVergl();
+                }
                 sort(algoBox.getSelectedIndex());
             }
         });
@@ -295,6 +299,8 @@ class GUI_Sort extends JFrame {
         btnFillArray.addActionListener(e -> {
             Algorithmus.fillDaten(getNumFromTextField());
             arrayFilled = true;
+            Algorithmus.resetNumVergl();
+            Algorithmus.resetNumTausch();
         });
 
         //TextField sizeArray
@@ -312,7 +318,7 @@ class GUI_Sort extends JFrame {
     }
 
     private void sort(int n) {
-        System.out.println(Algorithmus.checkSort());
+        System.out.println("already sorted: " + Algorithmus.checkSort());
         if (!arrayFilled || Algorithmus.checkSort()) {
             Algorithmus.fillDaten(getNumFromTextField());
         }

@@ -20,6 +20,13 @@ public class GSort extends Canvas {
     }
 
     public void render() {
+        GUI_Sort.setAnzSwapLabel(Long.toString(Algorithmus.getNumTausch()));
+        GUI_Sort.setAnzCompareLabel(Long.toString(Algorithmus.getNumVergl()));
+
+        renderGraphics();
+    }
+
+    private void renderGraphics() {
         BufferStrategy bs = this.getBufferStrategy();
 
         if (bs == null) {

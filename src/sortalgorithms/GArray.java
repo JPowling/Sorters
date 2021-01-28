@@ -40,7 +40,7 @@ public class GArray {
 				// for threadsafety
 			}
 		}
-		System.out.println("Width: " + CURRENT_WIDTH + "Height :" + CURRENT_HEIGHT);
+
 		for (int i = 0; i < Algorithmus.daten.length; i++) {
 			g.setColor(colorMap.getOrDefault(i, Color.blue));
 
