@@ -19,8 +19,8 @@ public abstract class Algorithmus {
     protected static final List<Integer> comparedElements = new ArrayList<>();
     protected static final List<Integer> swappedElements = new ArrayList<>();
 
-    private static int numTausch;
-    private static int numVergl;
+    private static long numTausch;
+    private static long numVergl;
 
     private String name;
 
@@ -112,13 +112,13 @@ public abstract class Algorithmus {
 	}
 
 	public static void stopSortThread() {
-		GUI_Sort.setAnzSwapLabel(Integer.toString(numTausch));
-		GUI_Sort.setAnzCompareLabel(Integer.toString(numVergl));
+        GUI_Sort.setAnzSwapLabel(Long.toString(numTausch));
+        GUI_Sort.setAnzCompareLabel(Long.toString(numVergl));
 
-		System.out.println("stopped sortThread");
+        System.out.println("stopped sortThread");
 
-		running = false;
-		GUI_Sort.setBtnStartStopLabel("Start");
+        running = false;
+        GUI_Sort.setBtnStartStopLabel("Start");
         sortThread.stop();
 
         clearHighlights();
