@@ -12,7 +12,7 @@ public abstract class Algorithmus {
 	protected static final List<Integer> swappedElements = new ArrayList<>();
 	private static final Random rnd = new Random();
 	private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
-	public static int delay = 50;
+	public static long delay = 50;
 	public static int[] daten = new int[1];
 	public static Thread sortThread;
 	private static int numTausch;
@@ -102,12 +102,9 @@ public abstract class Algorithmus {
 		GUI_Sort.setBtnStartStopLabel("Stop");
 		GUI_Sort.resetAnzLabels();
 		sortThread.start();
-
 	}
 
 	public static void stopSortThread() {
-		clearHighlights();
-
 		GUI_Sort.setAnzSwapLabel(Integer.toString(numTausch));
 		GUI_Sort.setAnzCompareLabel(Integer.toString(numVergl));
 
@@ -116,6 +113,8 @@ public abstract class Algorithmus {
 		running = false;
 		GUI_Sort.setBtnStartStopLabel("Start");
 		sortThread.stop();
+
+		clearHighlights();
 	}
 
 	private static void clearHighlights() {
@@ -151,6 +150,7 @@ public abstract class Algorithmus {
 		sortThread = new Thread(() -> {
 			internalSort();
 			Algorithmus.stopSortThread();
+			clearHighlights();
 			System.out.println("Sorted");
 		});
 		Algorithmus.startSortThread();
@@ -167,19 +167,23 @@ public abstract class Algorithmus {
 
 		numTausch++;
 
-		sleep(delay);
+		sleep();
 	}
 
 	@SuppressWarnings("StatementWithEmptyBody")
-	private void sleep(long time) {
-		if (time > 301) {
+	private void sleep() {
+		if(delay < 0) {
+			return;
+		}
+
+		if (delay > 301) {
             long now = System.currentTimeMillis();
-            while (System.currentTimeMillis() - now < (time - 300) / 2 + 100) {
+            while (System.currentTimeMillis() - now < delay / 2 - 50) {
                 // do nothing
             }
         } else {
             long now = System.nanoTime();
-            long calc = (time + 50) * 100_000;
+            long calc = delay * 320_000 + 5000000;
             System.out.println(calc);
 
             while (System.nanoTime() - now < calc) {
@@ -220,7 +224,7 @@ public abstract class Algorithmus {
 		return numVergl;
 	}
 
-	public int getDelay() {
+	public long getDelay() {
 		return delay;
 	}
 

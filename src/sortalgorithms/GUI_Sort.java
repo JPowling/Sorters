@@ -8,35 +8,30 @@ import java.util.Hashtable;
 
 class GUI_Sort extends JFrame {
 
-    private final int SCREEN_WIDTH = 1920 / 2;
-    private final int SCREEN_HEIGHT = 1080 / 2;
-
-    private final int SETTINGS_WIDTH = 300;
-    private final int CONTROL_HEIGHT = 150;
     public static final int DEFAULT_ARRAY_SIZE = 100;
-
     private static final String DEFAULT_ANZSWAPLABEL_Text = "tausche: ";
     private static final String DEFAULT_ANZCOMPARELABEL_Text = "vergleiche: ";
-
-    private final GridBagLayout gbl = new GridBagLayout();
-    private final GridBagConstraints gbc = new GridBagConstraints();
-
-    private GSort graphics;
-
-    private JPanel settings;
-    private JPanel control;
-    private JPanel visualisation;
-
     private static JTextField sizeArray;
     private static JButton btnStartStop;
     private static String btnStartStopLabel;
+    private static JLabel anzSwapLabel;
+    private static JLabel anzCompareLabel;
+    private final int SCREEN_WIDTH = 1920 / 2;
+    private final int SCREEN_HEIGHT = 1080 / 2;
+    private final int SETTINGS_WIDTH = 300;
+    private final int CONTROL_HEIGHT = 150;
+    private final GridBagLayout gbl = new GridBagLayout();
+    private final GridBagConstraints gbc = new GridBagConstraints();
+    private GSort graphics;
+    private JPanel settings;
+    private JPanel control;
+    private JPanel visualisation;
     private JButton btnFillArray;
     private JComboBox<String> algoBox;
     private boolean arrayFilled;
-    private static JLabel anzSwapLabel;
-    private static JLabel anzCompareLabel;
     private JTextArea console;
     private JSlider delaySlider;
+    private JCheckBox noDelayBox;
 
 
     public GUI_Sort() {
@@ -48,6 +43,38 @@ class GUI_Sort extends JFrame {
 
         listener();
         this.pack();
+    }
+
+    public static int getNumFromTextField() {
+        int a;
+
+        try {
+            a = Integer.parseInt(sizeArray.getText());
+        } catch (NumberFormatException exc) {
+            //exc.printStackTrace(); //nicht printen, weil der Fehler kommen darf, und nervt...
+
+            a = DEFAULT_ARRAY_SIZE;
+            sizeArray.setText(String.valueOf(DEFAULT_ARRAY_SIZE));
+        }
+        return a;
+    }
+
+    public static void setBtnStartStopLabel(String label) {
+        GUI_Sort.btnStartStopLabel = label;
+        GUI_Sort.btnStartStop.setText(GUI_Sort.btnStartStopLabel);
+    }
+
+    public static void setAnzSwapLabel(String label) {
+        anzSwapLabel.setText(DEFAULT_ANZSWAPLABEL_Text + label);
+    }
+
+    public static void setAnzCompareLabel(String label) {
+        anzCompareLabel.setText(DEFAULT_ANZCOMPARELABEL_Text + label);
+    }
+
+    public static void resetAnzLabels() {
+        anzSwapLabel.setText(DEFAULT_ANZSWAPLABEL_Text);
+        anzCompareLabel.setText(DEFAULT_ANZCOMPARELABEL_Text);
     }
 
     private void createScreen() {
@@ -83,20 +110,6 @@ class GUI_Sort extends JFrame {
         this.setVisible(true);
     }
 
-    public static int getNumFromTextField() {
-        int a;
-
-        try {
-            a = Integer.parseInt(sizeArray.getText());
-        } catch (NumberFormatException exc) {
-            //exc.printStackTrace(); //nicht printen, weil der Fehler kommen darf, und nervt...
-
-            a = DEFAULT_ARRAY_SIZE;
-            sizeArray.setText(String.valueOf(DEFAULT_ARRAY_SIZE));
-        }
-        return a;
-    }
-
     private void makeVisuals() {
         Algorithmus.fillEmpty();
 
@@ -108,24 +121,6 @@ class GUI_Sort extends JFrame {
                 graphics.render();
             }
         }).start();
-    }
-
-    public static void setBtnStartStopLabel(String label) {
-        GUI_Sort.btnStartStopLabel = label;
-        GUI_Sort.btnStartStop.setText(GUI_Sort.btnStartStopLabel);
-    }
-
-    public static void setAnzSwapLabel(String label) {
-        anzSwapLabel.setText(DEFAULT_ANZSWAPLABEL_Text + label);
-    }
-
-    public static void setAnzCompareLabel(String label) {
-        anzCompareLabel.setText(DEFAULT_ANZCOMPARELABEL_Text + label);
-    }
-
-    public static void resetAnzLabels() {
-        anzSwapLabel.setText(DEFAULT_ANZSWAPLABEL_Text);
-        anzCompareLabel.setText(DEFAULT_ANZCOMPARELABEL_Text);
     }
 
     private void setupScreen() {
@@ -220,7 +215,7 @@ class GUI_Sort extends JFrame {
 
         //Slider delaySlide
         delaySlider = new JSlider();
-        gbc.insets = new Insets(15, 10, 35, 10);
+        gbc.insets = new Insets(15, 10, 5, 10);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 3;
@@ -246,9 +241,30 @@ class GUI_Sort extends JFrame {
 
         delaySlider.addChangeListener(changeEvent -> {
             Algorithmus.delay = 1000 - delaySlider.getValue();
+            if (noDelayBox.isSelected())
+                noDelayBox.setSelected(false);
         });
 
         bottom.add(delaySlider);
+
+        noDelayBox = new JCheckBox("No delay");
+        gbc.insets = new Insets(0, 20, 0, 0);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 1;
+        gbl.setConstraints(noDelayBox, gbc);
+
+        noDelayBox.addChangeListener(changeEvent -> {
+            if (noDelayBox.isSelected()) {
+                Algorithmus.delay = -1;
+            } else {
+                Algorithmus.delay = 1000 - delaySlider.getValue();
+            }
+        });
+
+        bottom.add(noDelayBox);
 
 
         settings.add(top, BorderLayout.NORTH);
