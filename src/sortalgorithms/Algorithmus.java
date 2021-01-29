@@ -133,7 +133,7 @@ public abstract class Algorithmus {
         Algorithmus.numTausch = 0;
     }
 
-    public static int getNumTausch() {
+    public static long getNumTausch() {
         return Algorithmus.numTausch;
     }
 
@@ -149,7 +149,7 @@ public abstract class Algorithmus {
         Algorithmus.numVergl++;
     }
 
-    public static int getNumVergl() {
+    public static long getNumVergl() {
         return Algorithmus.numVergl;
     }
 
