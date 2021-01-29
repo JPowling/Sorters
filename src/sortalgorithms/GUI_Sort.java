@@ -30,7 +30,10 @@ class GUI_Sort extends JFrame {
     private static JTextField sizeArray;
     private static JButton btnStartStop;
     private static String btnStartStopLabel;
+
     private JButton btnFillArray;
+    private JComboBox<String> fillTypeBox;
+
     private JComboBox<String> algoBox;
     private boolean arrayFilled;
     private static JLabel anzSwapLabel;
@@ -132,6 +135,10 @@ class GUI_Sort extends JFrame {
     }
 
     private void setupScreen() {
+        int topCounter = 0;
+        int middleCounter = 0;
+        int bottomCounter = 0;
+
         JPanel top = new JPanel(gbl);
         JPanel mid = new JPanel(gbl);
         JPanel bottom = new JPanel(gbl);
@@ -142,7 +149,7 @@ class GUI_Sort extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(15, 10, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = topCounter++;
         gbc.gridwidth = 4;
         gbc.gridheight = 2;
         gbc.weightx = 3;
@@ -154,7 +161,7 @@ class GUI_Sort extends JFrame {
         btnStartStop = new JButton(btnStartStopLabel);
         gbc.insets = new Insets(15, 10, 5, 10);
         gbc.gridx = 6;
-        gbc.gridy = 2;
+        gbc.gridy = topCounter++;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.weightx = 0;
@@ -173,6 +180,18 @@ class GUI_Sort extends JFrame {
         top.add(btnFillArray);
         arrayFilled = false;
 
+        // Combobox for filltype
+        String[] fillTypeList = new String[] {"Random", "Reversed", "Sorted"};
+        fillTypeBox = new JComboBox<>(fillTypeList);
+        gbc.insets = new Insets(15, 10, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 4;
+        gbc.gridheight = 1;
+        gbc.weightx = 2;
+        gbl.setConstraints(fillTypeBox, gbc);
+        top.add(fillTypeBox);
+
         //Combobox
         String[] list = new String[Algorithmus.getAlgoSize()];
         for (int i = 0; i < Algorithmus.getAlgoSize(); i++) {
@@ -181,7 +200,7 @@ class GUI_Sort extends JFrame {
         algoBox = new JComboBox<>(list);
         gbc.insets = new Insets(15, 10, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 4;
         gbc.gridheight = 1;
         gbc.weightx = 2;
