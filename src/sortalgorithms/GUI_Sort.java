@@ -135,10 +135,6 @@ class GUI_Sort extends JFrame {
     }
 
     private void setupScreen() {
-        int topCounter = 0;
-        int middleCounter = 0;
-        int bottomCounter = 0;
-
         JPanel top = new JPanel(gbl);
         JPanel mid = new JPanel(gbl);
         JPanel bottom = new JPanel(gbl);
@@ -149,7 +145,7 @@ class GUI_Sort extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(15, 10, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = topCounter++;
+        gbc.gridy = 0;
         gbc.gridwidth = 4;
         gbc.gridheight = 2;
         gbc.weightx = 3;
@@ -161,7 +157,7 @@ class GUI_Sort extends JFrame {
         btnStartStop = new JButton(btnStartStopLabel);
         gbc.insets = new Insets(15, 10, 5, 10);
         gbc.gridx = 6;
-        gbc.gridy = topCounter++;
+        gbc.gridy = 2;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.weightx = 0;
@@ -183,7 +179,7 @@ class GUI_Sort extends JFrame {
         // Combobox for filltype
         String[] fillTypeList = new String[] {"Random", "Reversed", "Sorted"};
         fillTypeBox = new JComboBox<>(fillTypeList);
-        gbc.insets = new Insets(15, 10, 5, 5);
+        gbc.insets = new Insets(10, 10, 0, 5);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 4;
@@ -198,7 +194,7 @@ class GUI_Sort extends JFrame {
             list[i] = Algorithmus.getAlgorithmus(i).getName();
         }
         algoBox = new JComboBox<>(list);
-        gbc.insets = new Insets(15, 10, 5, 5);
+        gbc.insets = new Insets(0, 10, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 4;
@@ -316,7 +312,7 @@ class GUI_Sort extends JFrame {
 
         //Button fill Array
         btnFillArray.addActionListener(e -> {
-            Algorithmus.fillDaten(getNumFromTextField());
+            Algorithmus.fillDaten(getNumFromTextField(), fillTypeBox.getSelectedIndex());
             arrayFilled = true;
             Algorithmus.resetNumVergl();
             Algorithmus.resetNumTausch();
@@ -339,7 +335,7 @@ class GUI_Sort extends JFrame {
     private void sort(int n) {
         System.out.println("already sorted: " + Algorithmus.checkSort());
         if (!arrayFilled || Algorithmus.checkSort()) {
-            Algorithmus.fillDaten(getNumFromTextField());
+            Algorithmus.fillDaten(getNumFromTextField(), fillTypeBox.getSelectedIndex());
         }
 
         Algorithmus.getAlgorithmus(n).sort();

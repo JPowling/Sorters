@@ -5,10 +5,10 @@ import sortalgorithms.Algorithmus;
 public class BubbleSort extends Algorithmus {
 
     public void internalSort() {
-        while (!checkSort()) {
-            for (int i = 0; i < daten.length - 1; i++) {
+        for(int end = daten.length - 1; end > 1; end--) {
+            for (int i = 0; i < end; i++) {
                 if (compare(i, i + 1)) {
-                    swap(i, (i + 1));
+                    swap(i, i + 1);
                 }
             }
         }

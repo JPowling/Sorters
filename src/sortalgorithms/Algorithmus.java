@@ -32,24 +32,39 @@ public abstract class Algorithmus {
         addAlgorithmus(this);
     }
 
-    public static void fillDaten(int max) {
+    public static void fillDaten(int max, int type) {
         maxDatenVal = max;
         daten = new int[max];
-        boolean[] used = new boolean[max];
 
-		for (int i = 0; i < max; i++) {
-			used[i] = false;
-		}
-		for (int i = 0; i < max; i++) {
-			while (true) {
-				int a = rnd.nextInt(max);
+        switch (type) {
+			case 0:
+				boolean[] used = new boolean[max];
 
-				if (!used[a]) {
-					used[a] = true;
-					daten[i] = a;
-					break;
+				for (int i = 0; i < max; i++) {
+					used[i] = false;
 				}
-			}
+				for (int i = 0; i < max; i++) {
+					while (true) {
+						int a = rnd.nextInt(max);
+
+						if (!used[a]) {
+							used[a] = true;
+							daten[i] = a;
+							break;
+						}
+					}
+				}
+				break;
+			case 1:
+				for (int i = 0; i < daten.length; i++) {
+					daten[i] = daten.length - 1 - i;
+				}
+				break;
+			case 2:
+				for (int i = 0; i < daten.length; i++) {
+					daten[i] = i;
+				}
+				break;
 		}
 	}
 
