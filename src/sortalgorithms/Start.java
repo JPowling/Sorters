@@ -1,9 +1,6 @@
 package sortalgorithms;
 
-import algorithmen.BubbleSort;
-import algorithmen.InsertionSort;
-import algorithmen.SelectionSort;
-import algorithmen.WorseBogoSort;
+import algorithmen.*;
 
 public class Start {
 
@@ -15,6 +12,7 @@ public class Start {
 	private static void setup() {
 		new BubbleSort();
 		new InsertionSort();
+		new HeapSort();
 		new SelectionSort();
 		new WorseBogoSort();
 	}
