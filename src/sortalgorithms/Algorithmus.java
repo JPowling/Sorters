@@ -1,6 +1,8 @@
 package sortalgorithms;
 
 
+import com.sun.source.tree.IfTree;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -12,7 +14,7 @@ public abstract class Algorithmus {
 
     private static final ArrayList<Algorithmus> algoList = new ArrayList<>();
 
-    public static int delay = 20;
+    public static long delay = 20;
     public static int[] daten = new int[1];
     private static int maxDatenVal;
 
@@ -88,8 +90,19 @@ public abstract class Algorithmus {
         comparedElements.add(i2);
 
         numVergl++;
+
+		sleep();
         return daten[i1] > daten[i2];
     }
+
+	public boolean isSorted() {
+		for (int i = 0; i < daten.length - 1; i++) {
+			if (compare(i, i + 1)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
     public static boolean checkSort() {
         for (int i = 0; i < daten.length - 1; i++) {
@@ -179,16 +192,15 @@ public abstract class Algorithmus {
 			return;
 		}
 
-		if (delay > 301) {
+		if (delay > 10_000) {
             long now = System.currentTimeMillis();
-            while (System.currentTimeMillis() - now < delay / 2 - 50) {
+            while (System.currentTimeMillis() - now < delay / 10 + 10) { // for better resolution
                 // do nothing
             }
         } else {
             long now = System.nanoTime();
-            long calc = delay * 320_000 + 5000000;
 
-            while (System.nanoTime() - now < calc) {
+            while (System.nanoTime() - now < delay * 10_0000L + 10) {
                 // do nothing
             }
         }
