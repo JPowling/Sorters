@@ -125,8 +125,8 @@ public abstract class Algorithmus {
     }
 
     private static void clearHighlights() {
-        swappedElements.clear();
-        comparedElements.clear();
+        Algorithmus.swappedElements.clear();
+        Algorithmus.comparedElements.clear();
     }
 
     public static void resetNumTausch() {
@@ -160,9 +160,9 @@ public abstract class Algorithmus {
     protected abstract void internalSort();
 
     public void swap(int i1, int i2) {
-        swappedElements.clear();
-        swappedElements.add(i1);
-        swappedElements.add(i2);
+        Algorithmus.swappedElements.clear();
+        Algorithmus.swappedElements.add(i1);
+        Algorithmus.swappedElements.add(i2);
 
         int zS = daten[i1];
         daten[i1] = daten[i2];
