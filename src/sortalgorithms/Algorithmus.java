@@ -97,7 +97,7 @@ public abstract class Algorithmus {
      * @param i2 second Index
      * @return true wenn i1 größer als i2
      */
-    public boolean compare(int i1, int i2) {
+    public static boolean compare(int i1, int i2) {
         comparedElements.clear();
         comparedElements.add(i1);
         comparedElements.add(i2);
@@ -108,7 +108,7 @@ public abstract class Algorithmus {
 
     public static boolean checkSort() {
         for (int i = 0; i < daten.length - 1; i++) {
-            if (daten[i] > daten[i + 1]) {
+            if (Algorithmus.compare(i, i + 1)) {
                 return false;
             }
         }

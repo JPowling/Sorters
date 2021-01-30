@@ -13,6 +13,7 @@ public class Start {
 		new BubbleSort();
 		new InsertionSort();
 		new HeapSort();
+		new MiracleSort();
 		new SelectionSort();
 		new WorseBogoSort();
 	}

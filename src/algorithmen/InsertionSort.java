@@ -8,11 +8,11 @@ public class InsertionSort extends Algorithmus {
 		for (int first = 0; first < daten.length - 1; first++) {
 			int next = first + 1;
 
-			if (compare(first, next)) {
+			if (Algorithmus.compare(first, next)) {
 				swap(first, next);
 				int current = first;
 
-				while (current > 0 && compare(current - 1, current)) {
+				while (current > 0 && Algorithmus.compare(current - 1, current)) {
 					swap(current, current - 1);
 					current--;
 				}
