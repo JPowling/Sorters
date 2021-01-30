@@ -1,8 +1,6 @@
 package sortalgorithms;
 
 
-import com.sun.source.tree.IfTree;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -84,48 +82,46 @@ public abstract class Algorithmus {
 
 	public static int getAlgoSize() {
 		return algoList.size();
-	}
-
-	public static List<Integer> getComparedElements() {
-		return comparedElements;
-	}
-
-	public static List<Integer> getSwappedElements() {
-		return swappedElements;
-	}
-
-    /**
-     * @param i1 first Index
-     * @param i2 second Index
-     * @return true wenn i1 größer als i2
-     */
-    public static boolean compare(int i1, int i2) {
-        comparedElements.clear();
-        comparedElements.add(i1);
-        comparedElements.add(i2);
-
-        numVergl++;
-
-		sleep();
-        return daten[i1] > daten[i2];
     }
 
-	public boolean isSorted() {
-		for (int i = 0; i < daten.length - 1; i++) {
-			if (compare(i, i + 1)) {
-				return false;
-			}
-		}
-		return true;
-	}
+    public static List<Integer> getComparedElements() {
+        return comparedElements;
+    }
+
+    public static List<Integer> getSwappedElements() {
+        return swappedElements;
+    }
 
     public static boolean checkSort() {
+        for (int i = 0; i < daten.length - 1; i++) {
+            if (daten[i] > daten[i + 1]) return false;
+        }
+        return true;
+    }
+
+    public boolean isSorted() {
         for (int i = 0; i < daten.length - 1; i++) {
             if (compare(i, i + 1)) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * @param i1 first Index
+     * @param i2 second Index
+     * @return true wenn i1 größer als i2
+     */
+    public boolean compare(int i1, int i2) {
+        comparedElements.clear();
+        comparedElements.add(i1);
+        comparedElements.add(i2);
+
+        numVergl++;
+
+        sleep();
+        return daten[i1] > daten[i2];
     }
 
 	public static boolean isRunning() {
