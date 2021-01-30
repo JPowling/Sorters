@@ -30,7 +30,10 @@ class GUI_Sort extends JFrame {
     private static JTextField sizeArray;
     private static JButton btnStartStop;
     private static String btnStartStopLabel;
+
     private JButton btnFillArray;
+    private JComboBox<String> fillTypeBox;
+
     private JComboBox<String> algoBox;
     private boolean arrayFilled;
     private static JLabel anzSwapLabel;
@@ -173,15 +176,27 @@ class GUI_Sort extends JFrame {
         top.add(btnFillArray);
         arrayFilled = false;
 
+        // Combobox for filltype
+        String[] fillTypeList = new String[] {"Random", "Reversed", "Sorted"};
+        fillTypeBox = new JComboBox<>(fillTypeList);
+        gbc.insets = new Insets(10, 10, 0, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 4;
+        gbc.gridheight = 1;
+        gbc.weightx = 2;
+        gbl.setConstraints(fillTypeBox, gbc);
+        top.add(fillTypeBox);
+
         //Combobox
         String[] list = new String[Algorithmus.getAlgoSize()];
         for (int i = 0; i < Algorithmus.getAlgoSize(); i++) {
             list[i] = Algorithmus.getAlgorithmus(i).getName();
         }
         algoBox = new JComboBox<>(list);
-        gbc.insets = new Insets(15, 10, 5, 5);
+        gbc.insets = new Insets(0, 10, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 4;
         gbc.gridheight = 1;
         gbc.weightx = 2;
@@ -297,7 +312,7 @@ class GUI_Sort extends JFrame {
 
         //Button fill Array
         btnFillArray.addActionListener(e -> {
-            Algorithmus.fillDaten(getNumFromTextField());
+            Algorithmus.fillDaten(getNumFromTextField(), fillTypeBox.getSelectedIndex());
             arrayFilled = true;
             Algorithmus.resetNumVergl();
             Algorithmus.resetNumTausch();
@@ -320,7 +335,7 @@ class GUI_Sort extends JFrame {
     private void sort(int n) {
         System.out.println("already sorted: " + Algorithmus.checkSort());
         if (!arrayFilled || Algorithmus.checkSort()) {
-            Algorithmus.fillDaten(getNumFromTextField());
+            Algorithmus.fillDaten(getNumFromTextField(), fillTypeBox.getSelectedIndex());
         }
 
         Algorithmus.getAlgorithmus(n).sort();
