@@ -10,10 +10,12 @@ public class Start {
 	}
 
 	private static void setup() {
+		//Konstruktoren der Algorithmen in alphabetischer Reihenfolge aufrufen:
 		new BubbleSort();
 		new InsertionSort();
 		new HeapSort();
 		new SelectionSort();
+		new StoogeSort();
 		new WorseBogoSort();
 	}
 }
