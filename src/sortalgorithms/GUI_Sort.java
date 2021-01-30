@@ -246,7 +246,7 @@ class GUI_Sort extends JFrame {
         gbc.weightx = 1;
         gbl.setConstraints(delaySlider, gbc);
 
-        delaySlider.setMaximum(1000);
+        delaySlider.setMaximum(1_000);
         delaySlider.setMinimum(0);
         delaySlider.setPaintLabels(true);
         delaySlider.setPaintTicks(true);
@@ -254,19 +254,14 @@ class GUI_Sort extends JFrame {
         delaySlider.setMajorTickSpacing(100);
         delaySlider.setMinorTickSpacing(50);
 
-        delaySlider.setValue(500);
+        delaySlider.setInverted(true);
+
         Algorithmus.delay = 1000 - delaySlider.getValue();
 
         Hashtable<Integer, JLabel> delaySliderLabels = new Hashtable<>();
-        delaySliderLabels.put(1000, new JLabel("Fast"));
-        delaySliderLabels.put(0, new JLabel("Slow"));
+        delaySliderLabels.put(delaySlider.getMaximum(), new JLabel("Slow"));
+        delaySliderLabels.put(delaySlider.getMinimum(), new JLabel("Fast"));
         delaySlider.setLabelTable(delaySliderLabels);
-
-        delaySlider.addChangeListener(changeEvent -> {
-            Algorithmus.delay = 1000 - delaySlider.getValue();
-            if (noDelayBox.isSelected())
-                noDelayBox.setSelected(false);
-        });
 
         bottom.add(delaySlider);
 
@@ -283,7 +278,7 @@ class GUI_Sort extends JFrame {
             if (noDelayBox.isSelected()) {
                 Algorithmus.delay = -1;
             } else {
-                Algorithmus.delay = 1000 - delaySlider.getValue();
+                delaySlider.setValue(delaySlider.getValue()); // Update current set value
             }
         });
 
@@ -297,6 +292,16 @@ class GUI_Sort extends JFrame {
     }
 
     private void listener() {
+        // DelaySlider
+        delaySlider.addChangeListener(changeEvent -> {
+            Algorithmus.delay = (long) Math.pow(1.008, delaySlider.getValue());
+
+            if (noDelayBox.isSelected())
+                noDelayBox.setSelected(false);
+        });
+
+        delaySlider.setValue(delaySlider.getMaximum() / 3 * 2);
+
         //Button Start/Stop
         btnStartStop.addActionListener(e -> {
             if (Algorithmus.isRunning()) {
