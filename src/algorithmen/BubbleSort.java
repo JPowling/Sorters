@@ -7,7 +7,7 @@ public class BubbleSort extends Algorithmus {
     public void internalSort() {
         for(int end = daten.length - 1; end > 1; end--) {
             for (int i = 0; i < end; i++) {
-                if (Algorithmus.compare(i, i + 1)) {
+                if (compare(i, i + 1)) {
                     swap(i, i + 1);
                 }
             }

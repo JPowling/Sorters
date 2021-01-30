@@ -11,7 +11,7 @@ public class SelectionSort extends Algorithmus {
             smallest = first;
 
             for (int current = first + 1; current < daten.length; current++) {
-                if (Algorithmus.compare(smallest, current)) {
+                if (compare(smallest, current)) {
                     smallest = current;
                 }
             }

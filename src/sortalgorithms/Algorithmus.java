@@ -108,7 +108,7 @@ public abstract class Algorithmus {
 
     public static boolean checkSort() {
         for (int i = 0; i < daten.length - 1; i++) {
-            if (Algorithmus.compare(i, i + 1)) {
+            if (compare(i, i + 1)) {
                 return false;
             }
         }

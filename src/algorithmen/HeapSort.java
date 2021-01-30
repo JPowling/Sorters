@@ -28,11 +28,11 @@ public class HeapSort extends Algorithmus {
         int r = 2 * i + 2; // right = 2*i + 2
 
         // If left child is larger than root
-        if (l < n && Algorithmus.compare(l, largest))
+        if (l < n && compare(l, largest))
             largest = l;
 
         // If right child is larger than largest so far
-        if (r < n && Algorithmus.compare(r, largest))
+        if (r < n && compare(r, largest))
             largest = r;
 
         // If largest is not root
