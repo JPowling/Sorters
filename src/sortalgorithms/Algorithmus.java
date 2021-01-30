@@ -2,6 +2,7 @@ package sortalgorithms;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -14,7 +15,6 @@ public abstract class Algorithmus {
 
     public static long delay = 20;
     public static int[] daten = new int[1];
-    private static int maxDatenVal;
 
     protected static final List<Integer> comparedElements = new ArrayList<>();
     protected static final List<Integer> swappedElements = new ArrayList<>();
@@ -33,7 +33,6 @@ public abstract class Algorithmus {
     }
 
     public static void fillDaten(int max, int type) {
-        maxDatenVal = max;
         daten = new int[max];
 
         switch (type) {
@@ -99,7 +98,11 @@ public abstract class Algorithmus {
         return true;
     }
 
-    public boolean isSorted() {
+	public static void sortList() {
+    	algoList.sort(Comparator.comparing(Algorithmus::getName));
+	}
+
+	public boolean isSorted() {
         for (int i = 0; i < daten.length - 1; i++) {
             if (compare(i, i + 1)) {
                 return false;
