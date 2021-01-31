@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Comparator;
 import java.util.Hashtable;
+import java.util.List;
 
 class GUI_Sort extends JFrame {
 
@@ -45,6 +47,8 @@ class GUI_Sort extends JFrame {
 
     public GUI_Sort() {
         super("Screen");
+
+        Algorithmus.sortList();
 
         createScreen();
         setupScreen();
