@@ -37,51 +37,51 @@ public abstract class Algorithmus {
         daten = new int[max];
 
         switch (type) {
-			case 0:
-				boolean[] used = new boolean[max];
+            case 0:
+                boolean[] used = new boolean[max];
 
-				for (int i = 0; i < max; i++) {
-					used[i] = false;
-				}
-				for (int i = 0; i < max; i++) {
-					while (true) {
-						int a = rnd.nextInt(max);
+                for (int i = 0; i < max; i++) {
+                    used[i] = false;
+                }
+                for (int i = 0; i < max; i++) {
+                    while (true) {
+                        int a = rnd.nextInt(max);
 
-						if (!used[a]) {
-							used[a] = true;
-							daten[i] = a;
-							break;
-						}
-					}
-				}
-				break;
-			case 1:
-				for (int i = 0; i < daten.length; i++) {
-					daten[i] = daten.length - 1 - i;
-				}
-				break;
-			case 2:
-				for (int i = 0; i < daten.length; i++) {
-					daten[i] = i;
-				}
-				break;
-		}
-	}
+                        if (!used[a]) {
+                            used[a] = true;
+                            daten[i] = a;
+                            break;
+                        }
+                    }
+                }
+                break;
+            case 1:
+                for (int i = 0; i < daten.length; i++) {
+                    daten[i] = daten.length - 1 - i;
+                }
+                break;
+            case 2:
+                for (int i = 0; i < daten.length; i++) {
+                    daten[i] = i;
+                }
+                break;
+        }
+    }
 
-	public static void fillEmpty() {
-		daten = new int[GUI_Sort.DEFAULT_ARRAY_SIZE];
+    public static void fillEmpty() {
+        daten = new int[GUI_Sort.DEFAULT_ARRAY_SIZE];
 
-		for (int i = 0; i < GUI_Sort.DEFAULT_ARRAY_SIZE; i++) {
-			daten[i] = 0;
-		}
-	}
+        for (int i = 0; i < GUI_Sort.DEFAULT_ARRAY_SIZE; i++) {
+            daten[i] = 0;
+        }
+    }
 
-	public static Algorithmus getAlgorithmus(int a) {
-		return algoList.get(a);
-	}
+    public static Algorithmus getAlgorithmus(int a) {
+        return algoList.get(a);
+    }
 
-	public static int getAlgoSize() {
-		return algoList.size();
+    public static int getAlgoSize() {
+        return algoList.size();
     }
 
     public static List<Integer> getComparedElements() {
@@ -113,7 +113,7 @@ public abstract class Algorithmus {
      * @param i2 second Index
      * @return true wenn i1 größer als i2
      */
-    public boolean compare(int i1, int i2) {
+    public static boolean compare(int i1, int i2) {
         comparedElements.clear();
         comparedElements.add(i1);
         comparedElements.add(i2);
@@ -124,22 +124,28 @@ public abstract class Algorithmus {
         return daten[i1] > daten[i2];
     }
 
-	public static boolean isRunning() {
-		return Algorithmus.running;
-	}
+    public static boolean isRunning() {
+        return Algorithmus.running;
+    }
 
-	public static void startSortThread() {
-		running = true;
-		GUI_Sort.setBtnStartStopLabel("Stop");
-		GUI_Sort.resetAnzLabels();
-		sortThread.start();
-	}
+    public static void startSortThread() {
+        running = true;
+        GUI_Sort.setBtnStartStopLabel("Stop");
+        GUI_Sort.resetAnzLabels();
+        sortThread.start();
+    }
 
-	public static void stopSortThread() {
+    public static void stopSortThread() {
         GUI_Sort.setAnzSwapLabel(Long.toString(numTausch));
         GUI_Sort.setAnzCompareLabel(Long.toString(numVergl));
 
         System.out.println("stopped sortThread");
+
+        if (checkSort()) {
+            for (int i = 0; i < daten.length - 1; i++) {
+                compare(i, i + 1);
+            }
+        }
 
         running = false;
         GUI_Sort.setBtnStartStopLabel("Start");
@@ -197,13 +203,13 @@ public abstract class Algorithmus {
         sleep();
     }
 
-	@SuppressWarnings("StatementWithEmptyBody")
-	private void sleep() {
-		if(delay < 0) {
-			return;
-		}
+    @SuppressWarnings("StatementWithEmptyBody")
+    private static void sleep() {
+        if (delay < 0) {
+            return;
+        }
 
-		if (delay > 10_000) {
+        if (delay > 10_000) {
             long now = System.currentTimeMillis();
             while (System.currentTimeMillis() - now < delay / 10 + 10) { // for better resolution
                 // do nothing
