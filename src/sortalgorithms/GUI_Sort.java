@@ -292,7 +292,7 @@ class GUI_Sort extends JFrame {
     }
 
     private void listener() {
-        // DelaySlider
+        //DelaySlider
         delaySlider.addChangeListener(changeEvent -> {
             Algorithmus.delay = (long) Math.pow(1.008, delaySlider.getValue());
 
@@ -321,6 +321,7 @@ class GUI_Sort extends JFrame {
             arrayFilled = true;
             Algorithmus.resetNumVergl();
             Algorithmus.resetNumTausch();
+            Algorithmus.stopSortThread();
         });
 
         //TextField sizeArray

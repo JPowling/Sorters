@@ -22,6 +22,7 @@ public class GArray {
 		float num2 = (float) Algorithmus.daten.length;
 		double scale = num1 / num2;
 
+		@SuppressWarnings("IntegerDivisionInFloatingPointContext")
 		float width = (CURRENT_WIDTH - 2 * ABSTAND_RAND) / ((Algorithmus.daten.length));
 
 		Map<Integer, Color> colorMap = new HashMap<>();
