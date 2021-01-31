@@ -28,14 +28,14 @@ public class GArray {
 
 		for (int i = 0; i < Algorithmus.getSwappedElements().size(); i++) {
 			try {
-				colorMap.put(Algorithmus.getSwappedElements().get(i), Color.GREEN);
+				colorMap.put(Algorithmus.getSwappedElements().get(i), Color.RED);
 			} catch (IndexOutOfBoundsException ignored) {
 				// for threadsafety
 			}
 		}
 		for (int i = 0; i < Algorithmus.getComparedElements().size(); i++) {
 			try {
-				colorMap.put(Algorithmus.getComparedElements().get(i), Color.RED);
+				colorMap.put(Algorithmus.getComparedElements().get(i), Color.GREEN);
 			} catch (IndexOutOfBoundsException ignored) {
 				// for threadsafety
 			}
