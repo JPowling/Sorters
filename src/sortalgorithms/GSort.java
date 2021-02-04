@@ -22,7 +22,9 @@ public class GSort extends Canvas {
     public void render() {
         GUI_Sort.setAnzSwapLabel(Long.toString(Algorithmus.getNumTausch()));
         GUI_Sort.setAnzCompareLabel(Long.toString(Algorithmus.getNumVergl()));
-
+        if (Algorithmus.isRunning()) {
+            GUI_Sort.setTimeTakenLabel(Algorithmus.currentTimePassed());
+        }
         renderGraphics();
     }
 

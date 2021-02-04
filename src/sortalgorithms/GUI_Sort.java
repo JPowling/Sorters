@@ -4,9 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.Comparator;
 import java.util.Hashtable;
-import java.util.List;
 
 class GUI_Sort extends JFrame {
 
@@ -19,6 +17,7 @@ class GUI_Sort extends JFrame {
 
     private static final String DEFAULT_ANZSWAPLABEL_Text = "tausche: ";
     private static final String DEFAULT_ANZCOMPARELABEL_Text = "vergleiche: ";
+    private static final String DEFAULT_TIMETAKENLABEL_Text = "Time taken: ";
 
     private final GridBagLayout gbl = new GridBagLayout();
     private final GridBagConstraints gbc = new GridBagConstraints();
@@ -26,7 +25,6 @@ class GUI_Sort extends JFrame {
     private GSort graphics;
 
     private JPanel settings;
-    //private JPanel control;
     private static JPanel visualisation;
 
     private static JTextField sizeArray;
@@ -40,6 +38,7 @@ class GUI_Sort extends JFrame {
     private boolean arrayFilled;
     private static JLabel anzSwapLabel;
     private static JLabel anzCompareLabel;
+    private static JLabel timeTakenLabel;
     private JTextArea console;
     private JSlider delaySlider;
     private JCheckBox noDelayBox;
@@ -96,6 +95,10 @@ class GUI_Sort extends JFrame {
     public static void resetAnzLabels() {
         anzSwapLabel.setText(DEFAULT_ANZSWAPLABEL_Text);
         anzCompareLabel.setText(DEFAULT_ANZCOMPARELABEL_Text);
+    }
+
+    public static void setTimeTakenLabel(long time) {
+        timeTakenLabel.setText(DEFAULT_TIMETAKENLABEL_Text + time);
     }
 
     private void createScreen() {
@@ -229,11 +232,22 @@ class GUI_Sort extends JFrame {
         gbl.setConstraints(anzCompareLabel, gbc);
         mid.add(anzCompareLabel);
 
+        //Label timeTakenLabel
+        timeTakenLabel = new JLabel(DEFAULT_TIMETAKENLABEL_Text);
+        gbc.insets = new Insets(0, 10, 0, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 3;
+        gbc.gridheight = 1;
+        gbc.weightx = 1;
+        gbl.setConstraints(timeTakenLabel, gbc);
+        mid.add(timeTakenLabel);
+
         //TextField Console
         console = new JTextArea("This is the Console", 10, 1);
         gbc.insets = new Insets(5, 10, 15, 10);
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridwidth = 6;
         gbc.gridheight = 15;
         gbc.weightx = 1;
