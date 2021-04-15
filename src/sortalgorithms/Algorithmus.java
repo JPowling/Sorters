@@ -21,6 +21,9 @@ public abstract class Algorithmus {
 
     private static long numTausch;
     private static long numVergl;
+    private static long startTime;
+    private static long endTime;
+    private static long timePassed;
 
     private String name;
 
@@ -98,17 +101,12 @@ public abstract class Algorithmus {
         return true;
     }
 
-	public static void sortList() {
-    	algoList.sort(Comparator.comparing(Algorithmus::getName));
-	}
+    public static void sortList() {
+        algoList.sort(Comparator.comparing(Algorithmus::getName));
+    }
 
-	public boolean isSorted() {
-        for (int i = 0; i < daten.length - 1; i++) {
-            if (compare(i, i + 1)) {
-                return false;
-            }
-        }
-        return true;
+    public static long currentTimePassed() {
+        return System.currentTimeMillis() - Algorithmus.startTime;
     }
 
     /**
@@ -234,18 +232,13 @@ public abstract class Algorithmus {
         this.name = name;
     }
 
-    public void sort() {
-        clearHighlights();
-
-        System.out.println("Sorting with " + name + "...");
-
-        sortThread = new Thread(() -> {
-            internalSort();
-            clearHighlights();
-            System.out.println("Sorted");
-            Algorithmus.stopSortThread();
-        });
-        Algorithmus.startSortThread();
+    public boolean isSorted() {
+        for (int i = 0; i < daten.length - 1; i++) {
+            if (compare(i, i + 1)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public long getDelay() {
@@ -254,5 +247,31 @@ public abstract class Algorithmus {
 
     public void setDelay(int delay) {
         Algorithmus.delay = delay;
+    }
+
+    public void sort() {
+        clearHighlights();
+
+        System.out.println("Sorting with " + name + "...");
+
+        sortThread = new Thread(() -> {
+            startMessure();
+            internalSort();
+            stopMessure();
+            clearHighlights();
+            System.out.println("Sorted");
+            Algorithmus.stopSortThread();
+        });
+        Algorithmus.startSortThread();
+    }
+
+    public void startMessure() {
+        startTime = System.currentTimeMillis();
+    }
+
+    public void stopMessure() {
+        endTime = System.currentTimeMillis();
+        timePassed = endTime - startTime;
+        GUI_Sort.setTimeTakenLabel(timePassed);
     }
 }
